@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cầu Sách — Ứng dụng điều phối sách giáo khoa</title>
+  <meta name="description" content="Ứng dụng điều phối sách giáo khoa giữa nhà trường, phụ huynh và đơn vị cung ứng trong thời gian chuyển tiếp.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua đến nội dung</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="#">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Cầu Sách
+      </a>
+      <span id="mode" class="badge mode-badge">Đang tải…</span>
+      <nav class="nav" aria-label="Điều hướng chính">
+        <a href="index.html">Báo cáo giải pháp</a>
+        <a href="app.html" aria-current="page">Ứng dụng</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="app-main container" tabindex="-1">
+    <p class="muted">Đang tải dữ liệu…</p>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

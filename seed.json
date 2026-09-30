@@ -1,0 +1,54 @@
+{
+  "schools": [
+    { "id": "s1", "name": "Trường Tiểu học Sao Mai", "area": "Khu vực 1", "grade": 1 },
+    { "id": "s2", "name": "Trường Tiểu học Ánh Dương", "area": "Khu vực 1", "grade": 1 },
+    { "id": "s3", "name": "Trường THCS Hoa Sen", "area": "Khu vực 1", "grade": 6 },
+    { "id": "s4", "name": "Trường THCS Bình Minh", "area": "Khu vực 2", "grade": 6 },
+    { "id": "s5", "name": "Trường THCS Hướng Dương", "area": "Khu vực 2", "grade": 6 }
+  ],
+  "suppliers": [
+    { "id": "d1", "name": "Công ty Phát hành sách Khu vực 1 (mẫu)" },
+    { "id": "d2", "name": "Chi nhánh phân phối của NXB (mẫu)" }
+  ],
+  "titles": [
+    { "id": "tv1", "grade": 1, "name": "Tiếng Việt 1" },
+    { "id": "toan1", "grade": 1, "name": "Toán 1" },
+    { "id": "dd1", "grade": 1, "name": "Đạo đức 1" },
+    { "id": "tnxh1", "grade": 1, "name": "Tự nhiên và Xã hội 1" },
+    { "id": "van6", "grade": 6, "name": "Ngữ văn 6" },
+    { "id": "toan6", "grade": 6, "name": "Toán 6" },
+    { "id": "anh6", "grade": 6, "name": "Tiếng Anh 6" },
+    { "id": "khtn6", "grade": 6, "name": "Khoa học tự nhiên 6" }
+  ],
+  "stock": [
+    { "id": "k1", "schoolId": "s1", "titleId": "tv1", "need": 180, "have": 180, "shelf": 10 },
+    { "id": "k2", "schoolId": "s1", "titleId": "toan1", "need": 180, "have": 205, "shelf": 10 },
+    { "id": "k3", "schoolId": "s1", "titleId": "dd1", "need": 180, "have": 120, "shelf": 8 },
+    { "id": "k4", "schoolId": "s1", "titleId": "tnxh1", "need": 180, "have": 180, "shelf": 10 },
+    { "id": "k5", "schoolId": "s2", "titleId": "tv1", "need": 150, "have": 90, "shelf": 6 },
+    { "id": "k6", "schoolId": "s2", "titleId": "toan1", "need": 150, "have": 110, "shelf": 6 },
+    { "id": "k7", "schoolId": "s2", "titleId": "dd1", "need": 150, "have": 150, "shelf": 5 },
+    { "id": "k8", "schoolId": "s2", "titleId": "tnxh1", "need": 150, "have": 150, "shelf": 5 },
+    { "id": "k9", "schoolId": "s3", "titleId": "van6", "need": 240, "have": 270, "shelf": 12 },
+    { "id": "k10", "schoolId": "s3", "titleId": "toan6", "need": 240, "have": 240, "shelf": 12 },
+    { "id": "k11", "schoolId": "s3", "titleId": "anh6", "need": 240, "have": 200, "shelf": 10 },
+    { "id": "k12", "schoolId": "s3", "titleId": "khtn6", "need": 240, "have": 240, "shelf": 12 },
+    { "id": "k13", "schoolId": "s4", "titleId": "van6", "need": 210, "have": 150, "shelf": 8 },
+    { "id": "k14", "schoolId": "s4", "titleId": "toan6", "need": 210, "have": 230, "shelf": 10 },
+    { "id": "k15", "schoolId": "s4", "titleId": "anh6", "need": 210, "have": 210, "shelf": 10 },
+    { "id": "k16", "schoolId": "s4", "titleId": "khtn6", "need": 210, "have": 140, "shelf": 6 },
+    { "id": "k17", "schoolId": "s5", "titleId": "van6", "need": 200, "have": 130, "shelf": 6 },
+    { "id": "k18", "schoolId": "s5", "titleId": "toan6", "need": 200, "have": 160, "shelf": 8 },
+    { "id": "k19", "schoolId": "s5", "titleId": "anh6", "need": 200, "have": 200, "shelf": 10 },
+    { "id": "k20", "schoolId": "s5", "titleId": "khtn6", "need": 200, "have": 120, "shelf": 5 }
+  ],
+  "shipments": [
+    { "id": "p1", "supplierId": "d1", "schoolId": "s2", "titleId": "tv1", "qty": 60, "eta": "2026-10-06", "status": "shipping" },
+    { "id": "p2", "supplierId": "d2", "schoolId": "s5", "titleId": "khtn6", "qty": 50, "eta": "2026-10-12", "status": "planned" }
+  ],
+  "transfers": [],
+  "loans": [
+    { "id": "l1", "schoolId": "s2", "titleId": "toan1", "student": "Nguyễn Minh An", "className": "1A", "status": "requested" },
+    { "id": "l2", "schoolId": "s2", "titleId": "tv1", "student": "Trần Bảo Ngọc", "className": "1B", "status": "borrowed" }
+  ]
+}
