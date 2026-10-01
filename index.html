@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&display=swap">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f4fbf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E">
+  <link rel="alternate" hreflang="vi" href="index.html">
+  <link rel="alternate" hreflang="en" href="index.en.html">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,8 +23,9 @@
       </a>
       <nav class="nav" aria-label="Điều hướng chính">
         <a href="index.html" aria-current="page">Báo cáo giải pháp</a>
-        <a href="app.html">Ứng dụng</a>
+        <a href="app.html?lang=vi">Ứng dụng</a>
         <a href="https://github.com/ngth1010v/Book-bridge" target="_blank" rel="noopener">GitHub</a>
+        <a href="index.en.html" lang="en" hreflang="en" aria-label="Switch to English">EN</a>
       </nav>
     </div>
   </header>
@@ -36,7 +39,7 @@
           <p class="lead">Giải pháp chuyển tiếp hợp pháp, phụ huynh không phải trả thêm chi phí, và kết thúc khi sách chính thức về đủ.</p>
           <div class="actions">
             <a class="btn btn-primary" href="#tom-tat">Đọc báo cáo</a>
-            <a class="btn" href="app.html">Mở ứng dụng demo</a>
+            <a class="btn" href="app.html?lang=vi">Mở ứng dụng demo</a>
           </div>
         </div>
         <figure class="hero-photo">
@@ -290,11 +293,11 @@
         <h3>4.4. Bản demo và cách thử</h3>
         <p>Bản demo có 12 trường ở 3 khu vực, 14 đầu sách và 3 đơn vị cung ứng. Tên trường và đơn vị là giả định. Ba tình huống để thử:</p>
         <ul>
-          <li><strong>Trường thiếu tìm trường dư:</strong> mở <a href="app.html#school/s2/transfer">tab điều phối của Trường Tiểu học Ánh Dương</a> rồi bấm “Gửi đề nghị”.</li>
-          <li><strong>Phụ huynh xem khi nào sách về:</strong> mở <a href="app.html#parent/s2">trang phụ huynh của cùng trường</a>.</li>
-          <li><strong>Đơn vị cung ứng biết giao ở đâu:</strong> mở <a href="app.html#supplier/d1/demand">danh sách nhu cầu</a> rồi bấm “Lên lịch giao”.</li>
+          <li><strong>Trường thiếu tìm trường dư:</strong> mở <a href="app.html?lang=vi#school/s2/transfer">tab điều phối của Trường Tiểu học Ánh Dương</a> rồi bấm “Gửi đề nghị”.</li>
+          <li><strong>Phụ huynh xem khi nào sách về:</strong> mở <a href="app.html?lang=vi#parent/s2">trang phụ huynh của cùng trường</a>.</li>
+          <li><strong>Đơn vị cung ứng biết giao ở đâu:</strong> mở <a href="app.html?lang=vi#supplier/d1/demand">danh sách nhu cầu</a> rồi bấm “Lên lịch giao”.</li>
         </ul>
-        <p>Trang <a href="app.html#about">Giới thiệu trong ứng dụng</a> có số liệu toàn vùng tính từ dữ liệu hiện tại.</p>
+        <p>Trang <a href="app.html?lang=vi#about">Giới thiệu trong ứng dụng</a> có số liệu toàn vùng tính từ dữ liệu hiện tại.</p>
 
         <h3>4.5. Công nghệ</h3>
         <p>Ứng dụng viết bằng HTML, CSS và JavaScript thuần, chạy miễn phí trên GitHub Pages, dữ liệu lưu trên trình duyệt. Để nhiều trường dùng chung dữ liệu, chạy kèm máy chủ <code>server.py</code> (chỉ cần Python, không cần cài thư viện).</p>
@@ -353,7 +356,7 @@
       <section id="ket-luan">
         <h2><span class="sec-num">Chương 6.</span>Kết luận</h2>
         <p>BookBridge không cố thay thế sách giáo khoa. Mục tiêu là <strong>dùng hiệu quả hơn những cuốn sách hợp pháp đã có</strong> và <strong>giữ nhịp học</strong> cho đến khi sách chính thức về đủ. Thực tế tháng 9/2026 cho thấy các biện pháp riêng lẻ đều có tác dụng, nhưng thiếu thông tin chung. BookBridge bổ sung đúng phần đó, và sẵn sàng cho thiếu sách phát sinh trong năm cũng như cho đầu năm học 2027-2028.</p>
-        <p><a class="btn btn-primary" href="app.html">Dùng thử ứng dụng BookBridge</a></p>
+        <p><a class="btn btn-primary" href="app.html?lang=vi">Dùng thử ứng dụng BookBridge</a></p>
       </section>
 
       <section id="nguon">

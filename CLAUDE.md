@@ -44,10 +44,11 @@ Mọi tính năng/nội dung thêm vào phải phục vụ ít nhất một tiê
 
 ## Cấu trúc
 
-- `index.html`: báo cáo giải pháp, một trang cuộn, chia chương theo mẫu báo cáo (danh mục, tóm tắt, chương 1-6, tài liệu tham khảo kiểu IEEE).
+- `index.html`, `index.en.html`: báo cáo giải pháp (tiếng Việt, tiếng Anh), một trang cuộn, chia chương theo mẫu báo cáo (danh mục, tóm tắt, chương 1-6, tài liệu tham khảo kiểu IEEE).
 - `app.html` + `app.js`: web app cho 3 vai trò (nhà trường, phụ huynh/học sinh, NXB/phân phối). Điều hướng bằng hash: `#school/<id>/<tab>`, `#parent/<id>`, `#supplier/<id>/<tab>`, `#about` (trang giới thiệu).
 - `logic.js`: hàm thuần tính thiếu/dư/đang về và gợi ý điều phối sách dư. Dùng chung cho browser và test.
 - `styles.css`: style dùng chung, design token trong `:root` (có dark mode).
+- `i18n.js`: bản tiếng Anh của ứng dụng, gồm cả tên trong dữ liệu mẫu.
 - `seed.json`: dữ liệu mẫu (tên trường, đơn vị là giả định).
 - `classroom.jpg`: ảnh minh họa trong báo cáo, từ Wikimedia Commons (CC BY-SA 4.0), ghi công ngay dưới ảnh.
 - `server.py`: phục vụ file tĩnh + API (`GET /api/state`, `POST /api/<coll>`, `PATCH /api/<coll>/<id>`). Chưa có auth.
@@ -58,7 +59,9 @@ Demo hiện chỉ cho chọn vai trò, không có mật khẩu. Khi làm auth: n
 
 ## Quy ước UI/UX
 
-- Ngôn ngữ giao diện: **tiếng Việt**, có dấu đầy đủ, `<html lang="vi">`.
+- Ngôn ngữ giao diện: **tiếng Việt** là bản gốc (có dấu đầy đủ), kèm bản **tiếng Anh**. Đổi ngôn ngữ bằng link `EN`/`VI` ở header.
+  - Báo cáo: hai tệp `index.html` (vi) và `index.en.html` (en). Sửa nội dung thì sửa cả hai.
+  - Ứng dụng: chuỗi tiếng Việt viết trong `app.js` qua tag `T`, bản tiếng Anh nằm trong `i18n.js` (khóa là chuỗi tiếng Việt). Thêm hoặc sửa chuỗi thì cập nhật `i18n.js`; `node i18n.test.js` báo chuỗi thiếu. Ngôn ngữ chọn qua `?lang=en|vi`, lưu trong `localStorage`.
 - Người dùng chính: phụ huynh, học sinh, giáo viên, cán bộ nhà trường. Viết đơn giản, dễ hiểu.
 - Mobile-first: phần lớn phụ huynh dùng điện thoại. Chạy tốt ở màn hình 360px.
 - Nhẹ, tải nhanh trên mạng yếu: tối ưu ảnh, hạn chế JS, không tải font/thư viện nặng không cần thiết.
@@ -74,6 +77,7 @@ python server.py            # http://localhost:8000, chế độ api (tạo data
 python -m http.server 8000  # chỉ file tĩnh, chế độ local, giống GitHub Pages
 python test_server.py       # self-check API
 node logic.test.js          # self-check logic điều phối
+node i18n.test.js           # mọi chuỗi của app đều có bản tiếng Anh
 ```
 
 Reset dữ liệu server: xóa `data.db`. Để máy khác truy cập server: `BOOKBRIDGE_HOST=0.0.0.0` (chưa có auth, chỉ dùng trong mạng tin cậy).

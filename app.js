@@ -2,43 +2,62 @@
 //  - "api":   served by server.py -> data in SQLite via /api/*
 //  - "local": static hosting (GitHub Pages) -> data in localStorage, seeded from seed.json
 // Both modes expose the same store interface: { mode, state, add(coll, row), update(coll, id, patch) }.
+//
+// Language: Vietnamese text is the source. The T tag looks a string up in I18N_EN (i18n.js) when the
+// language is English, and falls back to the Vietnamese text when a translation is missing.
 
 const EBOOK_URL = 'https://taphuan.nxbgd.vn/'; // official free e-textbooks of NXB Giao duc Viet Nam; verify it matches the textbook series in use
 const LOCAL_KEY = 'bookbridge-state-v2'; // bump when seed.json changes shape or content
 const MY_LOANS_KEY = 'bookbridge-my-loans';
+const LANG_KEY = 'bookbridge-lang';
 
 const $main = document.getElementById('main');
 let store;
 let lastView = null;
 
+function storageGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
+function storageSet(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode: keep in memory */ } }
+
+// ---------- language ----------
+// ?lang=en|vi wins and is remembered; otherwise the last choice; otherwise Vietnamese.
+const LANG = (() => {
+  const asked = new URLSearchParams(location.search).get('lang');
+  if (asked === 'en' || asked === 'vi') { storageSet(LANG_KEY, asked); return asked; }
+  return storageGet(LANG_KEY) === 'en' ? 'en' : 'vi';
+})();
+const tr = (s) => (LANG === 'en' && window.I18N_EN[s]) || s;
+// Tagged template: T applied to "Còn ${n} cuốn" looks up "Còn {} cuốn" and fills the values back in, in order.
+const T = (strings, ...values) => { let i = 0; return tr(strings.join('{}')).replace(/\{\}/g, () => values[i++]); };
+const REPORT = LANG === 'en' ? 'index.en.html' : 'index.html';
+
 // ---------- helpers ----------
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const S = () => store.state;
-const find = (coll, id) => S()[coll].find((x) => x.id === id) || { name: '(không rõ)' };
-const title = (id) => find('titles', id).name;
-const schoolName = (id) => find('schools', id).name;
-const fmtDate = (iso) => (iso ? new Date(iso + 'T00:00:00').toLocaleDateString('vi-VN') : '-');
+const find = (coll, id) => S()[coll].find((x) => x.id === id) || { name: T`(không rõ)` };
+// Names in the sample data (schools, titles, suppliers, areas) are translated like any other text.
+const nm = (row) => esc(tr(row.name));
+const title = (id) => nm(find('titles', id));
+const schoolName = (id) => nm(find('schools', id));
+const fmtDate = (iso) => (iso ? new Date(iso + 'T00:00:00').toLocaleDateString(LANG === 'en' ? 'en-GB' : 'vi-VN') : '-');
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const total = (rows, key) => rows.reduce((t, r) => t + r[key], 0);
-
-function storageGet(key) { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } }
-function storageSet(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* private mode: keep in memory */ } }
 
 const ICONS = {
   school: '<path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/>',
   users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   truck: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>',
 };
-const icon = (name) => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name]}</svg>`;
+const icon = (key) => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[key]}</svg>`;
 
-const SHIP = { planned: ['Đã lên lịch', 'info'], shipping: ['Đang giao', 'warn'], delivered: ['Đã nhận', 'ok'] };
-const TRANSFER = { proposed: ['Chờ trường gửi đồng ý', 'info'], accepted: ['Đã đồng ý, chờ nhận', 'warn'], rejected: ['Bị từ chối', 'bad'], done: ['Hoàn tất', 'ok'] };
-const LOAN = { requested: ['Chờ duyệt', 'info'], borrowed: ['Đang mượn', 'warn'], returned: ['Đã trả', 'ok'], rejected: ['Từ chối', 'bad'] };
+const SHIP = { planned: [T`Đã lên lịch`, 'info'], shipping: [T`Đang giao`, 'warn'], delivered: [T`Đã nhận`, 'ok'] };
+const TRANSFER = { proposed: [T`Chờ trường gửi đồng ý`, 'info'], accepted: [T`Đã đồng ý, chờ nhận`, 'warn'], rejected: [T`Bị từ chối`, 'bad'], done: [T`Hoàn tất`, 'ok'] };
+const LOAN = { requested: [T`Chờ duyệt`, 'info'], borrowed: [T`Đang mượn`, 'warn'], returned: [T`Đã trả`, 'ok'], rejected: [T`Từ chối`, 'bad'] };
 const badge = (map, status) => `<span class="badge badge-${map[status][1]}">${map[status][0]}</span>`;
 
+// Headers are Vietnamese source strings; a leading "#" marks a numeric (right-aligned) column.
 function table(headers, rows, empty) {
   if (!rows.length) return `<div class="table-wrap"><p class="empty">${empty}</p></div>`;
-  const th = headers.map((h) => `<th${h.startsWith('#') ? ' class="num"' : ''}>${h.replace('#', '')}</th>`).join('');
+  const th = headers.map((h) => `<th${h.startsWith('#') ? ' class="num"' : ''}>${tr(h.replace('#', ''))}</th>`).join('');
   return `<div class="table-wrap"><table><thead><tr>${th}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
 }
 const tabs = (base, current, list) => `<div class="tabs" role="tablist">${list.map(([key, label]) =>
@@ -91,32 +110,33 @@ async function adjustStock(schoolId, titleId, delta) {
 }
 
 // ---------- views ----------
+const switchRole = () => `<a class="btn btn-sm" href="#">${T`Đổi vai trò`}</a>`;
+
 function homeView() {
-  const schoolOptions = S().schools.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join('');
-  const supplierOptions = S().suppliers.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join('');
+  const schoolOptions = S().schools.map((s) => `<option value="${s.id}">${nm(s)}</option>`).join('');
+  const supplierOptions = S().suppliers.map((s) => `<option value="${s.id}">${nm(s)}</option>`).join('');
   const card = (role, iconName, heading, text, options, label) => `
     <form class="role-card" data-form="enter" data-role="${role}">
       <div><h2 class="h3">${icon(iconName)}${heading}</h2><p>${text}</p></div>
       <div class="role-enter">
         <div class="field"><label for="enter-${role}">${label}</label><select id="enter-${role}" name="id">${options}</select></div>
-        <button class="btn btn-primary" type="submit">Vào</button>
+        <button class="btn btn-primary" type="submit">${T`Vào`}</button>
       </div>
     </form>`;
   return `
-    <h1>Chọn vai trò</h1>
-    <p class="muted">Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu. Ứng dụng không lưu và không phát tán nội dung sách.
-      <a href="#about">Ứng dụng này giải quyết vấn đề gì?</a></p>
+    <h1>${T`Chọn vai trò`}</h1>
+    <p class="muted">${T`Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu. Ứng dụng không lưu và không phát tán nội dung sách.`}
+      <a href="#about">${T`Ứng dụng này giải quyết vấn đề gì?`}</a></p>
     <div class="role-cards">
-      ${card('school', 'school', 'Nhà trường', 'Cập nhật nhu cầu và số sách hiện có, nhận lô giao, xin sách dư từ trường khác, quản lý tủ sách mượn luân phiên.', schoolOptions, 'Trường của bạn')}
-      ${card('parent', 'users', 'Phụ huynh / Học sinh', 'Xem sách của trường đã về chưa, đọc bản điện tử từ nguồn chính thức, đăng ký mượn sách luân phiên.', schoolOptions, 'Trường của con')}
-      ${card('supplier', 'truck', 'Nhà xuất bản / Phân phối', 'Xem nhu cầu còn thiếu của từng trường và lên lịch giao sách.', supplierOptions, 'Đơn vị của bạn')}
+      ${card('school', 'school', T`Nhà trường`, T`Cập nhật nhu cầu và số sách hiện có, nhận lô giao, xin sách dư từ trường khác, quản lý tủ sách mượn luân phiên.`, schoolOptions, T`Trường của bạn`)}
+      ${card('parent', 'users', T`Phụ huynh / Học sinh`, T`Xem sách của trường đã về chưa, đọc bản điện tử từ nguồn chính thức, đăng ký mượn sách luân phiên.`, schoolOptions, T`Trường của con`)}
+      ${card('supplier', 'truck', T`Nhà xuất bản / Phân phối`, T`Xem nhu cầu còn thiếu của từng trường và lên lịch giao sách.`, supplierOptions, T`Đơn vị của bạn`)}
     </div>
     <div class="callout">
-      <strong>Bản demo chưa có đăng nhập.</strong> Khi triển khai thật: nhà trường và nhà xuất bản/phân phối dùng tài khoản và mật khẩu.
-      Phụ huynh và học sinh không cần tài khoản, nhưng chỉ xem được trạng thái sách của trường mình, không thấy số liệu chi tiết.
+      <strong>${T`Bản demo chưa có đăng nhập.`}</strong> ${T`Khi triển khai thật: nhà trường và nhà xuất bản/phân phối dùng tài khoản và mật khẩu. Phụ huynh và học sinh không cần tài khoản, nhưng chỉ xem được trạng thái sách của trường mình, không thấy số liệu chi tiết.`}
     </div>
-    ${store.mode === 'local' ? `<p class="small muted">Dữ liệu demo lưu trên trình duyệt này.
-      <button class="btn btn-sm" data-action="reset">Khôi phục dữ liệu mẫu</button></p>` : ''}`;
+    ${store.mode === 'local' ? `<p class="small muted">${T`Dữ liệu demo lưu trên trình duyệt này.`}
+      <button class="btn btn-sm" data-action="reset">${T`Khôi phục dữ liệu mẫu`}</button></p>` : ''}`;
 }
 
 // About page (#about): what the app is for, with region-wide numbers and live examples from current data.
@@ -133,41 +153,41 @@ function aboutView() {
   const supplier = S().suppliers[0];
   const problem = (heading, text) => `<div><h3>${heading}</h3><p>${text}</p></div>`;
   return `
-    <div class="page-head"><div><p class="eyebrow">Giới thiệu</p><h1>Ứng dụng điều phối sách giáo khoa</h1></div>
-      <a class="btn btn-sm" href="#">Chọn vai trò</a></div>
-    <p class="muted">Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu. Chi tiết về giải pháp có trong <a href="index.html#ung-dung">Chương 4 của báo cáo</a>.</p>
+    <div class="page-head"><div><p class="eyebrow">${T`Giới thiệu`}</p><h1>${T`Ứng dụng điều phối sách giáo khoa`}</h1></div>
+      <a class="btn btn-sm" href="#">${T`Chọn vai trò`}</a></div>
+    <p class="muted">${T`Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu.`} ${T`Chi tiết về giải pháp có trong`} <a href="${REPORT}#ung-dung">${T`Chương 4 của báo cáo`}</a>.</p>
 
     <section class="home-section">
-      <h2 class="h3">Ứng dụng giải quyết ba vấn đề</h2>
+      <h2 class="h3">${T`Ứng dụng giải quyết ba vấn đề`}</h2>
       <div class="rows">
-        ${problem('Không ai thấy trường nào thiếu đầu sách nào', 'Mỗi trường nhập ba con số cho mỗi đầu sách: cần, đang có, để trong tủ mượn. Ứng dụng tính số thiếu, số đang về và số dư của từng trường.')}
-        ${problem('Sách dư ở trường này, trường bên cạnh lại thiếu', 'Ứng dụng tự ghép trường dư với trường thiếu cùng đầu sách, ưu tiên cùng khu vực. Hai trường đồng ý với nhau, không cần in thêm cuốn nào.')}
-        ${problem('Phụ huynh không biết khi nào có sách', 'Phụ huynh xem được đầu sách nào đã đủ, đầu sách nào đang về và ngày dự kiến. Trong lúc chờ, phụ huynh đăng ký mượn luân phiên hoặc mở sách điện tử chính thức.')}
+        ${problem(T`Không ai thấy trường nào thiếu đầu sách nào`, T`Mỗi trường nhập ba con số cho mỗi đầu sách: cần, đang có, để trong tủ mượn. Ứng dụng tính số thiếu, số đang về và số dư của từng trường.`)}
+        ${problem(T`Sách dư ở trường này, trường bên cạnh lại thiếu`, T`Ứng dụng tự ghép trường dư với trường thiếu cùng đầu sách, ưu tiên cùng khu vực. Hai trường đồng ý với nhau, không cần in thêm cuốn nào.`)}
+        ${problem(T`Phụ huynh không biết khi nào có sách`, T`Phụ huynh xem được đầu sách nào đã đủ, đầu sách nào đang về và ngày dự kiến. Trong lúc chờ, phụ huynh đăng ký mượn luân phiên hoặc mở sách điện tử chính thức.`)}
       </div>
     </section>
 
     <section class="home-section">
-      <h2 class="h3">Tình hình toàn vùng (dữ liệu mẫu)</h2>
+      <h2 class="h3">${T`Tình hình toàn vùng (dữ liệu mẫu)`}</h2>
       <div class="stats">
-        <div class="stat"><b>${S().schools.length}</b><span>Trường tham gia</span></div>
-        <div class="stat"><b>${total(all, 'short')}</b><span>Cuốn còn thiếu</span></div>
-        <div class="stat"><b>${total(suggestions, 'qty')}</b><span>Bù được bằng sách dư</span></div>
-        <div class="stat"><b>${total(all, 'incoming')}</b><span>Đang trên đường về</span></div>
+        <div class="stat"><b>${S().schools.length}</b><span>${T`Trường tham gia`}</span></div>
+        <div class="stat"><b>${total(all, 'short')}</b><span>${T`Cuốn còn thiếu`}</span></div>
+        <div class="stat"><b>${total(suggestions, 'qty')}</b><span>${T`Bù được bằng sách dư`}</span></div>
+        <div class="stat"><b>${total(all, 'incoming')}</b><span>${T`Đang trên đường về`}</span></div>
       </div>
       ${table(['Trường thiếu nhiều nhất', 'Khu vực', '#Thiếu', '#Đang về', '#Bù được từ trường dư', ''], worst.map((s) => `<tr>
-        <td>${esc(s.name)}</td><td>${esc(s.area)}</td><td class="num"><span class="badge badge-bad">${s.short}</span></td>
+        <td>${nm(s)}</td><td>${esc(tr(s.area))}</td><td class="num"><span class="badge badge-bad">${s.short}</span></td>
         <td class="num">${s.incoming}</td><td class="num">${s.cover}</td>
-        <td><a class="btn btn-sm" href="#school/${s.id}">Xem trường</a></td></tr>`), 'Không còn trường nào thiếu sách.')}
+        <td><a class="btn btn-sm" href="#school/${s.id}">${T`Xem trường`}</a></td></tr>`), T`Không còn trường nào thiếu sách.`)}
     </section>
 
     <section class="home-section">
-      <h2 class="h3">Thử ba tình huống</h2>
+      <h2 class="h3">${T`Thử ba tình huống`}</h2>
       <ol class="steps">
-        ${best ? `<li><strong>Trường thiếu tìm trường dư.</strong> ${esc(schoolName(best.toId))} thiếu ${esc(title(best.titleId))}, trong khi ${esc(schoolName(best.fromId))} đang dư ${best.qty} cuốn.
-          <a href="#school/${best.toId}/transfer">Mở tab điều phối của trường</a> rồi bấm “Gửi đề nghị”.</li>` : ''}
-        ${waiting ? `<li><strong>Phụ huynh xem khi nào sách về.</strong> ${esc(schoolName(waiting.schoolId))} còn thiếu ${esc(title(waiting.titleId))} và lô giao đang trên đường.
-          <a href="#parent/${waiting.schoolId}">Xem với vai trò phụ huynh</a>.</li>` : ''}
-        <li><strong>Đơn vị cung ứng biết giao ở đâu.</strong> <a href="#supplier/${supplier.id}/demand">Mở danh sách nhu cầu</a>, đã trừ phần bù được bằng sách dư, rồi lên lịch giao.</li>
+        ${best ? `<li><strong>${T`Trường thiếu tìm trường dư.`}</strong> ${T`${schoolName(best.toId)} thiếu ${title(best.titleId)}, trong khi ${schoolName(best.fromId)} đang dư ${best.qty} cuốn.`}
+          <a href="#school/${best.toId}/transfer">${T`Mở tab điều phối của trường`}</a> ${T`rồi bấm “Gửi đề nghị”.`}</li>` : ''}
+        ${waiting ? `<li><strong>${T`Phụ huynh xem khi nào sách về.`}</strong> ${T`${schoolName(waiting.schoolId)} còn thiếu ${title(waiting.titleId)} và lô giao đang trên đường.`}
+          <a href="#parent/${waiting.schoolId}">${T`Xem với vai trò phụ huynh`}</a>.</li>` : ''}
+        <li><strong>${T`Đơn vị cung ứng biết giao ở đâu.`}</strong> <a href="#supplier/${supplier.id}/demand">${T`Mở danh sách nhu cầu`}</a>${T`, đã trừ phần bù được bằng sách dư, rồi lên lịch giao.`}</li>
       </ol>
     </section>`;
 }
@@ -185,43 +205,43 @@ function schoolView(id, tab = 'stock') {
   let panel;
   if (tab === 'stock') {
     panel = `
-      <p class="muted small">Cần: số học sinh cần sách. Đang có: số sách trường đang giữ, gồm cả sách trong tủ luân phiên. Tủ luân phiên: số cuốn để cho học sinh mượn theo lượt.</p>
+      <p class="muted small">${T`Cần: số học sinh cần sách. Đang có: số sách trường đang giữ, gồm cả sách trong tủ luân phiên. Tủ luân phiên: số cuốn để cho học sinh mượn theo lượt.`}</p>
       ${table(['Đầu sách', '#Cần', '#Đang có', '#Tủ luân phiên', '#Thiếu', '#Đang về', '#Dư', ''], rows.map((r) => {
         const x = m.get(r.id);
-        const num = (name, label) => `<td class="num"><input type="number" min="0" name="${name}" value="${r[name]}" aria-label="${label}: ${esc(title(r.titleId))}"></td>`;
-        return `<tr data-row="${r.id}"><td>${esc(title(r.titleId))}</td>${num('need', 'Cần')}${num('have', 'Đang có')}${num('shelf', 'Tủ luân phiên')}
+        const num = (field, label) => `<td class="num"><input type="number" min="0" name="${field}" value="${r[field]}" aria-label="${tr(label)}: ${title(r.titleId)}"></td>`;
+        return `<tr data-row="${r.id}"><td>${title(r.titleId)}</td>${num('need', 'Cần')}${num('have', 'Đang có')}${num('shelf', 'Tủ luân phiên')}
           <td class="num">${x.short ? `<span class="badge badge-bad">${x.short}</span>` : '0'}</td>
           <td class="num">${x.incoming}</td><td class="num">${x.surplus}</td>
-          <td><button class="btn btn-sm" data-action="save-stock" data-id="${r.id}">Lưu</button></td></tr>`;
-      }), 'Chưa có đầu sách nào.')}`;
+          <td><button class="btn btn-sm" data-action="save-stock" data-id="${r.id}">${T`Lưu`}</button></td></tr>`;
+      }), T`Chưa có đầu sách nào.`)}`;
   } else if (tab === 'ship') {
     const list = S().shipments.filter((p) => p.schoolId === id).sort((a, b) => a.eta.localeCompare(b.eta));
     panel = table(['Đầu sách', '#Số lượng', 'Đơn vị cung ứng', 'Dự kiến', 'Trạng thái', ''], list.map((p) => `<tr>
-      <td>${esc(title(p.titleId))}</td><td class="num">${p.qty}</td><td>${esc(find('suppliers', p.supplierId).name)}</td>
+      <td>${title(p.titleId)}</td><td class="num">${p.qty}</td><td>${nm(find('suppliers', p.supplierId))}</td>
       <td>${fmtDate(p.eta)}</td><td>${badge(SHIP, p.status)}</td>
-      <td>${p.status !== 'delivered' ? `<button class="btn btn-sm btn-primary" data-action="receive-shipment" data-id="${p.id}">Xác nhận đã nhận</button>` : ''}</td></tr>`),
-      'Chưa có lô giao nào cho trường.');
+      <td>${p.status !== 'delivered' ? `<button class="btn btn-sm btn-primary" data-action="receive-shipment" data-id="${p.id}">${T`Xác nhận đã nhận`}</button>` : ''}</td></tr>`),
+      T`Chưa có lô giao nào cho trường.`);
   } else if (tab === 'transfer') {
     const suggestions = Logic.suggestTransfers(S()).filter((x) => x.toId === id);
     const asked = S().transfers.filter((t) => t.fromId === id);
     const mine = S().transfers.filter((t) => t.toId === id);
     panel = `
-      <section><h2>Gợi ý: trường khác đang dư sách bạn cần</h2>
+      <section><h2>${T`Gợi ý: trường khác đang dư sách bạn cần`}</h2>
       ${table(['Đầu sách', 'Trường đang dư', '#Số lượng', ''], suggestions.map((x) => `<tr>
-        <td>${esc(title(x.titleId))}</td><td>${esc(schoolName(x.fromId))}</td><td class="num">${x.qty}</td>
-        <td><button class="btn btn-sm btn-primary" data-action="request-transfer" data-from="${x.fromId}" data-title="${x.titleId}" data-qty="${x.qty}">Gửi đề nghị</button></td></tr>`),
-        'Không có gợi ý. Trường chưa thiếu sách, hoặc chưa trường nào dư đầu sách bạn cần.')}</section>
-      <section><h2>Trường khác xin sách dư của bạn</h2>
+        <td>${title(x.titleId)}</td><td>${schoolName(x.fromId)}</td><td class="num">${x.qty}</td>
+        <td><button class="btn btn-sm btn-primary" data-action="request-transfer" data-from="${x.fromId}" data-title="${x.titleId}" data-qty="${x.qty}">${T`Gửi đề nghị`}</button></td></tr>`),
+        T`Không có gợi ý. Trường chưa thiếu sách, hoặc chưa trường nào dư đầu sách bạn cần.`)}</section>
+      <section><h2>${T`Trường khác xin sách dư của bạn`}</h2>
       ${table(['Đầu sách', 'Trường xin', '#Số lượng', 'Trạng thái', ''], asked.map((t) => `<tr>
-        <td>${esc(title(t.titleId))}</td><td>${esc(schoolName(t.toId))}</td><td class="num">${t.qty}</td><td>${badge(TRANSFER, t.status)}</td>
-        <td class="row-actions">${t.status === 'proposed' ? `<button class="btn btn-sm btn-primary" data-action="accept-transfer" data-id="${t.id}">Đồng ý</button>
-          <button class="btn btn-sm btn-danger" data-action="reject-transfer" data-id="${t.id}">Từ chối</button>` : ''}</td></tr>`),
-        'Chưa có đề nghị nào.')}</section>
-      <section><h2>Đề nghị của trường bạn</h2>
+        <td>${title(t.titleId)}</td><td>${schoolName(t.toId)}</td><td class="num">${t.qty}</td><td>${badge(TRANSFER, t.status)}</td>
+        <td class="row-actions">${t.status === 'proposed' ? `<button class="btn btn-sm btn-primary" data-action="accept-transfer" data-id="${t.id}">${T`Đồng ý`}</button>
+          <button class="btn btn-sm btn-danger" data-action="reject-transfer" data-id="${t.id}">${T`Từ chối`}</button>` : ''}</td></tr>`),
+        T`Chưa có đề nghị nào.`)}</section>
+      <section><h2>${T`Đề nghị của trường bạn`}</h2>
       ${table(['Đầu sách', 'Từ trường', '#Số lượng', 'Trạng thái', ''], mine.map((t) => `<tr>
-        <td>${esc(title(t.titleId))}</td><td>${esc(schoolName(t.fromId))}</td><td class="num">${t.qty}</td><td>${badge(TRANSFER, t.status)}</td>
-        <td>${t.status === 'accepted' ? `<button class="btn btn-sm btn-primary" data-action="receive-transfer" data-id="${t.id}">Xác nhận đã nhận</button>` : ''}</td></tr>`),
-        'Chưa gửi đề nghị nào.')}</section>`;
+        <td>${title(t.titleId)}</td><td>${schoolName(t.fromId)}</td><td class="num">${t.qty}</td><td>${badge(TRANSFER, t.status)}</td>
+        <td>${t.status === 'accepted' ? `<button class="btn btn-sm btn-primary" data-action="receive-transfer" data-id="${t.id}">${T`Xác nhận đã nhận`}</button>` : ''}</td></tr>`),
+        T`Chưa gửi đề nghị nào.`)}</section>`;
   } else {
     const loans = S().loans.filter((l) => l.schoolId === id).sort((a, b) => Object.keys(LOAN).indexOf(a.status) - Object.keys(LOAN).indexOf(b.status));
     const available = (titleId) => {
@@ -229,29 +249,29 @@ function schoolView(id, tab = 'stock') {
       return r ? m.get(r.id).available : 0;
     };
     panel = `
-      <section><h2>Tủ sách luân phiên</h2>
-      ${table(['Đầu sách', '#Trong tủ', '#Đang cho mượn', '#Còn sẵn'], rows.map((r) => `<tr><td>${esc(title(r.titleId))}</td>
-        <td class="num">${r.shelf}</td><td class="num">${m.get(r.id).onLoan}</td><td class="num">${m.get(r.id).available}</td></tr>`), 'Chưa có đầu sách nào.')}</section>
-      <section><h2>Yêu cầu mượn</h2>
+      <section><h2>${T`Tủ sách luân phiên`}</h2>
+      ${table(['Đầu sách', '#Trong tủ', '#Đang cho mượn', '#Còn sẵn'], rows.map((r) => `<tr><td>${title(r.titleId)}</td>
+        <td class="num">${r.shelf}</td><td class="num">${m.get(r.id).onLoan}</td><td class="num">${m.get(r.id).available}</td></tr>`), T`Chưa có đầu sách nào.`)}</section>
+      <section><h2>${T`Yêu cầu mượn`}</h2>
       ${table(['Học sinh', 'Lớp', 'Đầu sách', 'Trạng thái', ''], loans.map((l) => `<tr>
-        <td>${esc(l.student)}</td><td>${esc(l.className)}</td><td>${esc(title(l.titleId))}</td><td>${badge(LOAN, l.status)}</td>
+        <td>${esc(l.student)}</td><td>${esc(l.className)}</td><td>${title(l.titleId)}</td><td>${badge(LOAN, l.status)}</td>
         <td class="row-actions">${l.status === 'requested' ? `
-          <button class="btn btn-sm btn-primary" data-action="loan" data-status="borrowed" data-id="${l.id}" ${available(l.titleId) ? '' : 'disabled title="Tủ đã hết sách này"'}>Cho mượn</button>
-          <button class="btn btn-sm btn-danger" data-action="loan" data-status="rejected" data-id="${l.id}">Từ chối</button>` : ''}
-          ${l.status === 'borrowed' ? `<button class="btn btn-sm" data-action="loan" data-status="returned" data-id="${l.id}">Đã trả</button>` : ''}</td></tr>`),
-        'Chưa có yêu cầu mượn.')}</section>`;
+          <button class="btn btn-sm btn-primary" data-action="loan" data-status="borrowed" data-id="${l.id}" ${available(l.titleId) ? '' : `disabled title="${T`Tủ đã hết sách này`}"`}>${T`Cho mượn`}</button>
+          <button class="btn btn-sm btn-danger" data-action="loan" data-status="rejected" data-id="${l.id}">${T`Từ chối`}</button>` : ''}
+          ${l.status === 'borrowed' ? `<button class="btn btn-sm" data-action="loan" data-status="returned" data-id="${l.id}">${T`Đã trả`}</button>` : ''}</td></tr>`),
+        T`Chưa có yêu cầu mượn.`)}</section>`;
   }
 
   return `
-    <div class="page-head"><div><p class="eyebrow">Nhà trường · ${esc(school.area)}</p><h1>${esc(school.name)}</h1></div>
-      <a class="btn btn-sm" href="#">Đổi vai trò</a></div>
+    <div class="page-head"><div><p class="eyebrow">${T`Nhà trường`} · ${esc(tr(school.area))}</p><h1>${nm(school)}</h1></div>
+      ${switchRole()}</div>
     <div class="stats">
-      <div class="stat"><b>${total(rows, 'need')}</b><span>Nhu cầu</span></div>
-      <div class="stat"><b>${total(rows, 'have')}</b><span>Đang có</span></div>
-      <div class="stat"><b>${total(ms, 'short')}</b><span>Còn thiếu</span></div>
-      <div class="stat"><b>${total(ms, 'incoming')}</b><span>Đang về</span></div>
+      <div class="stat"><b>${total(rows, 'need')}</b><span>${T`Nhu cầu`}</span></div>
+      <div class="stat"><b>${total(rows, 'have')}</b><span>${T`Đang có`}</span></div>
+      <div class="stat"><b>${total(ms, 'short')}</b><span>${T`Còn thiếu`}</span></div>
+      <div class="stat"><b>${total(ms, 'incoming')}</b><span>${T`Đang về`}</span></div>
     </div>
-    ${tabs(base, tab, [['stock', 'Sách & nhu cầu'], ['ship', 'Lô giao đến'], ['transfer', `Điều phối liên trường${pendingIn ? ` (${pendingIn})` : ''}`], ['loan', `Mượn luân phiên${loanReqs ? ` (${loanReqs})` : ''}`]])}
+    ${tabs(base, tab, [['stock', T`Sách & nhu cầu`], ['ship', T`Lô giao đến`], ['transfer', T`Điều phối liên trường` + (pendingIn ? ` (${pendingIn})` : '')], ['loan', T`Mượn luân phiên` + (loanReqs ? ` (${loanReqs})` : '')]])}
     <div class="panel">${panel}</div>`;
 }
 
@@ -260,36 +280,35 @@ function parentView(id) {
   if (!school.id) return notFound();
   const rows = S().stock.filter((r) => r.schoolId === id);
   const myIds = storageGet(MY_LOANS_KEY) || [];
-  const mine = S().loans.filter((l) => myIds.includes(l.id));
+  const mine = S().loans.filter((l) => myIds.includes(l.id) && l.schoolId === id);
   const cards = rows.map((r) => {
     const x = Logic.metrics(S(), r);
     const eta = S().shipments.filter((p) => p.schoolId === id && p.titleId === r.titleId && p.status !== 'delivered').map((p) => p.eta).sort()[0];
-    const status = !x.short ? '<span class="badge badge-ok">Đủ sách</span>'
-      : x.incoming ? `<span class="badge badge-warn">Đang về${eta ? `, dự kiến ${fmtDate(eta)}` : ''}</span>`
-        : '<span class="badge badge-bad">Đang thiếu</span>';
-    const hint = x.short ? `<p class="small">${x.available ? `Thư viện còn ${x.available} cuốn để mượn luân phiên.` : 'Tủ luân phiên tạm hết. Bạn vẫn có thể đăng ký để được xếp lượt.'}</p>` : '';
-    return `<div class="card"><h3>${esc(title(r.titleId))}</h3>${status}${hint}
-      <p class="small"><a href="${EBOOK_URL}" target="_blank" rel="noopener">Đọc bản điện tử (nguồn chính thức)</a></p></div>`;
+    const status = !x.short ? `<span class="badge badge-ok">${T`Đủ sách`}</span>`
+      : x.incoming ? `<span class="badge badge-warn">${eta ? T`Đang về, dự kiến ${fmtDate(eta)}` : T`Đang về`}</span>`
+        : `<span class="badge badge-bad">${T`Đang thiếu`}</span>`;
+    const hint = x.short ? `<p class="small">${x.available ? T`Thư viện còn ${x.available} cuốn để mượn luân phiên.` : T`Tủ luân phiên tạm hết. Bạn vẫn có thể đăng ký để được xếp lượt.`}</p>` : '';
+    return `<div class="card"><h3>${title(r.titleId)}</h3>${status}${hint}
+      <p class="small"><a href="${EBOOK_URL}" target="_blank" rel="noopener">${T`Đọc bản điện tử (nguồn chính thức)`}</a></p></div>`;
   }).join('');
-  const options = rows.map((r) => `<option value="${r.titleId}">${esc(title(r.titleId))}</option>`).join('');
+  const options = rows.map((r) => `<option value="${r.titleId}">${title(r.titleId)}</option>`).join('');
   return `
-    <div class="page-head"><div><p class="eyebrow">Phụ huynh / Học sinh</p><h1>Sách của ${esc(school.name)}</h1></div>
-      <a class="btn btn-sm" href="#">Đổi vai trò</a></div>
+    <div class="page-head"><div><p class="eyebrow">${T`Phụ huynh / Học sinh`}</p><h1>${T`Sách của ${nm(school)}`}</h1></div>
+      ${switchRole()}</div>
     <div class="panel">
     <div class="grid">${cards}</div>
     <section class="card">
-      <h2 class="h3">Đăng ký mượn sách luân phiên</h2>
+      <h2 class="h3">${T`Đăng ký mượn sách luân phiên`}</h2>
       <form data-form="loan" data-school="${id}" class="form-grid">
-        <div class="field"><label for="loan-title">Đầu sách</label><select id="loan-title" name="titleId">${options}</select></div>
-        <div class="field"><label for="loan-student">Họ tên học sinh</label><input id="loan-student" name="student" required maxlength="80" autocomplete="name"></div>
-        <div class="field"><label for="loan-class">Lớp</label><input id="loan-class" name="className" required maxlength="20" placeholder="VD: 6A"></div>
-        <button class="btn btn-primary" type="submit">Gửi đăng ký</button>
+        <div class="field"><label for="loan-title">${T`Đầu sách`}</label><select id="loan-title" name="titleId">${options}</select></div>
+        <div class="field"><label for="loan-student">${T`Họ tên học sinh`}</label><input id="loan-student" name="student" required maxlength="80" autocomplete="name"></div>
+        <div class="field"><label for="loan-class">${T`Lớp`}</label><input id="loan-class" name="className" required maxlength="20" placeholder="${T`VD: 6A`}"></div>
+        <button class="btn btn-primary" type="submit">${T`Gửi đăng ký`}</button>
       </form>
-      <p class="small muted">Chỉ cần tên và lớp. Nhà trường dùng thông tin này để xếp lượt mượn, không dùng cho mục đích khác.</p>
-      ${mine.length ? table(['Học sinh', 'Đầu sách', 'Trạng thái'], mine.map((l) => `<tr><td>${esc(l.student)} (${esc(l.className)})</td><td>${esc(title(l.titleId))}</td><td>${badge(LOAN, l.status)}</td></tr>`), '') : ''}
+      <p class="small muted">${T`Chỉ cần tên và lớp. Nhà trường dùng thông tin này để xếp lượt mượn, không dùng cho mục đích khác.`}</p>
+      ${mine.length ? table(['Học sinh', 'Đầu sách', 'Trạng thái'], mine.map((l) => `<tr><td>${esc(l.student)} (${esc(l.className)})</td><td>${title(l.titleId)}</td><td>${badge(LOAN, l.status)}</td></tr>`), '') : ''}
     </section>
-    <div class="callout"><strong>Trong lúc chờ sách:</strong> hỏi giáo viên chủ nhiệm về tủ sách dùng chung tại lớp, nhóm học đôi bạn và phiếu học tập của giáo viên.
-      Đừng photocopy sách: việc này có thể vi phạm quyền tác giả.</div>
+    <div class="callout"><strong>${T`Trong lúc chờ sách:`}</strong> ${T`hỏi giáo viên chủ nhiệm về tủ sách dùng chung tại lớp, nhóm học đôi bạn và phiếu học tập của giáo viên. Đừng photocopy sách: việc này có thể vi phạm quyền tác giả.`}</div>
     </div>`;
 }
 
@@ -305,46 +324,48 @@ function supplierView(id, tab = 'demand') {
   const eta = new Date(Date.now() + 3 * 864e5).toISOString().slice(0, 10);
 
   const panel = tab === 'demand' ? `
-    <p class="muted small">Số còn thiếu đã trừ sách đang giao và sách đã được điều phối giữa các trường. Cột "Có thể bù từ trường dư" là lượng sách dư ở trường khác đủ điều kiện luân chuyển. Nên để các trường xử lý phần này trước khi giao thêm.</p>
+    <p class="muted small">${T`Số còn thiếu đã trừ sách đang giao và sách đã được điều phối giữa các trường. Cột "Có thể bù từ trường dư" là lượng sách dư ở trường khác đủ điều kiện luân chuyển. Nên để các trường xử lý phần này trước khi giao thêm.`}</p>
     ${table(['Trường', 'Khu vực', 'Đầu sách', '#Còn thiếu', '#Có thể bù từ trường dư', ''], gaps.map((r) => `<tr>
-      <td>${esc(schoolName(r.schoolId))}</td><td>${esc(find('schools', r.schoolId).area)}</td><td>${esc(title(r.titleId))}</td>
+      <td>${schoolName(r.schoolId)}</td><td>${esc(tr(find('schools', r.schoolId).area))}</td><td>${title(r.titleId)}</td>
       <td class="num"><span class="badge badge-bad">${r.gap}</span></td><td class="num">${r.cover}</td>
-      <td><button class="btn btn-sm" data-action="prefill-ship" data-school="${r.schoolId}" data-title="${r.titleId}" data-qty="${Math.max(1, r.gap - r.cover)}">Lên lịch giao</button></td></tr>`),
-      'Không còn trường nào thiếu sách.')}
+      <td><button class="btn btn-sm" data-action="prefill-ship" data-school="${r.schoolId}" data-title="${r.titleId}" data-qty="${Math.max(1, r.gap - r.cover)}">${T`Lên lịch giao`}</button></td></tr>`),
+      T`Không còn trường nào thiếu sách.`)}
     <form class="card" data-form="ship" data-supplier="${id}" id="ship-form">
-      <h2>Tạo lô giao</h2>
+      <h2>${T`Tạo lô giao`}</h2>
       <div class="form-grid">
-        <div class="field"><label for="ship-school">Trường</label><select id="ship-school" name="schoolId">${S().schools.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div>
-        <div class="field"><label for="ship-title">Đầu sách</label><select id="ship-title" name="titleId">${S().titles.map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join('')}</select></div>
-        <div class="field"><label for="ship-qty">Số lượng</label><input id="ship-qty" name="qty" type="number" min="1" max="100000" required value="10"></div>
-        <div class="field"><label for="ship-eta">Ngày giao dự kiến</label><input id="ship-eta" name="eta" type="date" required value="${eta}"></div>
-        <button class="btn btn-primary" type="submit">Tạo lô giao</button>
+        <div class="field"><label for="ship-school">${T`Trường`}</label><select id="ship-school" name="schoolId">${S().schools.map((s) => `<option value="${s.id}">${nm(s)}</option>`).join('')}</select></div>
+        <div class="field"><label for="ship-title">${T`Đầu sách`}</label><select id="ship-title" name="titleId">${S().titles.map((t) => `<option value="${t.id}">${nm(t)}</option>`).join('')}</select></div>
+        <div class="field"><label for="ship-qty">${T`Số lượng`}</label><input id="ship-qty" name="qty" type="number" min="1" max="100000" required value="10"></div>
+        <div class="field"><label for="ship-eta">${T`Ngày giao dự kiến`}</label><input id="ship-eta" name="eta" type="date" required value="${eta}"></div>
+        <button class="btn btn-primary" type="submit">${T`Tạo lô giao`}</button>
       </div>
     </form>`
     : table(['Trường', 'Đầu sách', '#Số lượng', 'Dự kiến', 'Trạng thái', ''], mine.map((p) => `<tr>
-      <td>${esc(schoolName(p.schoolId))}</td><td>${esc(title(p.titleId))}</td><td class="num">${p.qty}</td><td>${fmtDate(p.eta)}</td><td>${badge(SHIP, p.status)}</td>
-      <td>${p.status === 'planned' ? `<button class="btn btn-sm btn-primary" data-action="start-shipment" data-id="${p.id}">Bắt đầu giao</button>` : ''}</td></tr>`),
-      'Đơn vị chưa có lô giao nào.');
+      <td>${schoolName(p.schoolId)}</td><td>${title(p.titleId)}</td><td class="num">${p.qty}</td><td>${fmtDate(p.eta)}</td><td>${badge(SHIP, p.status)}</td>
+      <td>${p.status === 'planned' ? `<button class="btn btn-sm btn-primary" data-action="start-shipment" data-id="${p.id}">${T`Bắt đầu giao`}</button>` : ''}</td></tr>`),
+      T`Đơn vị chưa có lô giao nào.`);
 
   return `
-    <div class="page-head"><div><p class="eyebrow">Nhà xuất bản / Phân phối</p><h1>${esc(supplier.name)}</h1></div>
-      <a class="btn btn-sm" href="#">Đổi vai trò</a></div>
+    <div class="page-head"><div><p class="eyebrow">${T`Nhà xuất bản / Phân phối`}</p><h1>${nm(supplier)}</h1></div>
+      ${switchRole()}</div>
     <div class="stats">
-      <div class="stat"><b>${total(gaps, 'gap')}</b><span>Cuốn còn thiếu (toàn vùng)</span></div>
-      <div class="stat"><b>${new Set(gaps.map((r) => r.schoolId)).size}</b><span>Trường còn thiếu</span></div>
-      <div class="stat"><b>${mine.filter((p) => p.status !== 'delivered').length}</b><span>Lô đang xử lý</span></div>
-      <div class="stat"><b>${total(mine.filter((p) => p.status === 'delivered'), 'qty')}</b><span>Cuốn đã giao</span></div>
+      <div class="stat"><b>${total(gaps, 'gap')}</b><span>${T`Cuốn còn thiếu (toàn vùng)`}</span></div>
+      <div class="stat"><b>${new Set(gaps.map((r) => r.schoolId)).size}</b><span>${T`Trường còn thiếu`}</span></div>
+      <div class="stat"><b>${mine.filter((p) => p.status !== 'delivered').length}</b><span>${T`Lô đang xử lý`}</span></div>
+      <div class="stat"><b>${total(mine.filter((p) => p.status === 'delivered'), 'qty')}</b><span>${T`Cuốn đã giao`}</span></div>
     </div>
-    ${tabs(base, tab, [['demand', 'Nhu cầu cần giao'], ['ship', 'Lô giao của đơn vị']])}
+    ${tabs(base, tab, [['demand', T`Nhu cầu cần giao`], ['ship', T`Lô giao của đơn vị`]])}
     <div class="panel">${panel}</div>`;
 }
 
-const notFound = () => '<h1>Không tìm thấy</h1><p><a href="#">Quay lại chọn vai trò</a></p>';
+const notFound = () => `<h1>${T`Không tìm thấy`}</h1><p><a href="#">${T`Quay lại chọn vai trò`}</a></p>`;
 
 function render() {
   const [role, id, tab] = location.hash.slice(1).split('/');
   const views = { school: schoolView, parent: parentView, supplier: supplierView };
   $main.innerHTML = role === 'about' ? aboutView() : views[role] && id ? views[role](id, tab) : homeView();
+  // The language switch keeps the current view.
+  document.getElementById('lang').href = `app.html?lang=${LANG === 'en' ? 'vi' : 'en'}${location.hash}`;
   const viewKey = `${role}/${id}`;
   $main.classList.remove('enter');
   if (viewKey !== lastView) {
@@ -364,7 +385,7 @@ async function run(fn, message) {
     render();
     toast(message);
   } catch (e) {
-    toast(`Lỗi: ${e.message}`, true);
+    toast(T`Lỗi: ${e.message}`, true);
   }
 }
 
@@ -372,29 +393,29 @@ const actions = {
   tab: (d) => { location.hash = d.hash; },
   reset: () => { try { localStorage.removeItem(LOCAL_KEY); } catch { /* ignore */ } location.reload(); },
   'save-stock': (d, btn) => run(async () => {
-    const tr = btn.closest('tr');
-    const val = (name) => Number(tr.querySelector(`[name=${name}]`).value);
+    const row = btn.closest('tr');
+    const val = (field) => Number(row.querySelector(`[name=${field}]`).value);
     const patch = { need: val('need'), have: val('have'), shelf: val('shelf') };
-    if (Object.values(patch).some((v) => !Number.isInteger(v) || v < 0)) throw new Error('Số lượng phải là số nguyên không âm');
-    if (patch.shelf > patch.have) throw new Error('Số sách trong tủ luân phiên không thể lớn hơn số sách đang có');
+    if (Object.values(patch).some((v) => !Number.isInteger(v) || v < 0)) throw new Error(T`Số lượng phải là số nguyên không âm`);
+    if (patch.shelf > patch.have) throw new Error(T`Số sách trong tủ luân phiên không thể lớn hơn số sách đang có`);
     await store.update('stock', d.id, patch);
-  }, 'Đã lưu'),
+  }, T`Đã lưu`),
   'receive-shipment': (d) => run(async () => {
     const p = await store.update('shipments', d.id, { status: 'delivered' });
     await adjustStock(p.schoolId, p.titleId, p.qty);
-  }, 'Đã nhận lô sách, số sách đang có đã được cập nhật'),
-  'start-shipment': (d) => run(() => store.update('shipments', d.id, { status: 'shipping' }), 'Đã chuyển sang Đang giao'),
+  }, T`Đã nhận lô sách, số sách đang có đã được cập nhật`),
+  'start-shipment': (d) => run(() => store.update('shipments', d.id, { status: 'shipping' }), T`Đã chuyển sang Đang giao`),
   'request-transfer': (d) => run(() => store.add('transfers', {
     fromId: d.from, toId: location.hash.split('/')[1], titleId: d.title, qty: Number(d.qty), status: 'proposed',
-  }), 'Đã gửi đề nghị đến trường đang dư sách'),
-  'accept-transfer': (d) => run(() => store.update('transfers', d.id, { status: 'accepted' }), 'Đã đồng ý. Hãy chuyển sách cho trường nhận'),
-  'reject-transfer': (d) => run(() => store.update('transfers', d.id, { status: 'rejected' }), 'Đã từ chối đề nghị'),
+  }), T`Đã gửi đề nghị đến trường đang dư sách`),
+  'accept-transfer': (d) => run(() => store.update('transfers', d.id, { status: 'accepted' }), T`Đã đồng ý. Hãy chuyển sách cho trường nhận`),
+  'reject-transfer': (d) => run(() => store.update('transfers', d.id, { status: 'rejected' }), T`Đã từ chối đề nghị`),
   'receive-transfer': (d) => run(async () => {
     const t = await store.update('transfers', d.id, { status: 'done' });
     await adjustStock(t.fromId, t.titleId, -t.qty);
     await adjustStock(t.toId, t.titleId, t.qty);
-  }, 'Hoàn tất luân chuyển, số sách hai trường đã được cập nhật'),
-  loan: (d) => run(() => store.update('loans', d.id, { status: d.status }), 'Đã cập nhật yêu cầu mượn'),
+  }, T`Hoàn tất luân chuyển, số sách hai trường đã được cập nhật`),
+  loan: (d) => run(() => store.update('loans', d.id, { status: d.status }), T`Đã cập nhật yêu cầu mượn`),
   'prefill-ship': (d) => {
     const form = document.getElementById('ship-form');
     form.schoolId.value = d.school;
@@ -410,10 +431,10 @@ const forms = {
   loan: (form, data) => run(async () => {
     const saved = await store.add('loans', { schoolId: form.dataset.school, titleId: data.titleId, student: data.student.trim(), className: data.className.trim(), status: 'requested' });
     storageSet(MY_LOANS_KEY, [...(storageGet(MY_LOANS_KEY) || []), saved.id]);
-  }, 'Đã gửi đăng ký mượn. Nhà trường sẽ xếp lượt'),
+  }, T`Đã gửi đăng ký mượn. Nhà trường sẽ xếp lượt`),
   ship: (form, data) => run(() => store.add('shipments', {
     supplierId: form.dataset.supplier, schoolId: data.schoolId, titleId: data.titleId, qty: Number(data.qty), eta: data.eta, status: 'planned',
-  }), 'Đã tạo lô giao'),
+  }), T`Đã tạo lô giao`),
 };
 
 document.addEventListener('click', (e) => {
@@ -428,15 +449,28 @@ document.addEventListener('submit', (e) => {
 });
 window.addEventListener('hashchange', render);
 
+// Static page chrome (app.html) is written in Vietnamese; translate it once at start.
+(function localizeChrome() {
+  document.documentElement.lang = LANG;
+  document.title = tr(document.title);
+  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = tr(el.textContent.trim()); });
+  document.querySelector('nav').setAttribute('aria-label', T`Điều hướng chính`);
+  document.getElementById('report-link').href = REPORT;
+  const link = document.getElementById('lang');
+  link.textContent = LANG === 'en' ? 'VI' : 'EN';
+  link.lang = LANG === 'en' ? 'vi' : 'en';
+  link.setAttribute('aria-label', LANG === 'en' ? 'Chuyển sang tiếng Việt' : 'Switch to English');
+})();
+
 (async () => {
   try {
     store = await makeStore();
   } catch {
-    $main.innerHTML = '<h1>Không tải được dữ liệu</h1><p>Hãy mở trang qua máy chủ web (ví dụ <code>python server.py</code>) thay vì mở trực tiếp tệp.</p>';
+    $main.innerHTML = `<h1>${T`Không tải được dữ liệu`}</h1><p>${T`Hãy mở trang qua máy chủ web (ví dụ <code>python server.py</code>) thay vì mở trực tiếp tệp.`}</p>`;
     return;
   }
   const mode = document.getElementById('mode');
-  mode.textContent = store.mode === 'api' ? 'Đã kết nối máy chủ' : 'Demo · lưu trên trình duyệt';
+  mode.textContent = store.mode === 'api' ? T`Đã kết nối máy chủ` : T`Demo · lưu trên trình duyệt`;
   mode.className = `badge mode-badge ${store.mode === 'api' ? 'badge-ok' : 'badge-info'}`;
   render();
 })();

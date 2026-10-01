@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BookBridge: a bridging solution for textbook shortages</title>
+  <meta name="description" content="A proposal for a legal, low-cost way to keep students learning when textbooks have not all been supplied.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&display=swap">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f4fbf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E">
+  <link rel="alternate" hreflang="vi" href="index.html">
+  <link rel="alternate" hreflang="en" href="index.en.html">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header has-progress">
+    <div class="container">
+      <a class="brand" href="index.en.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        BookBridge
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.en.html" aria-current="page">Report</a>
+        <a href="app.html?lang=en">App</a>
+        <a href="https://github.com/ngth1010v/Book-bridge" target="_blank" rel="noopener">GitHub</a>
+        <a href="index.html" lang="vi" hreflang="vi" aria-label="Chuyển sang tiếng Việt">VI</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">BookBridge · Solution proposal</p>
+          <h1>No student should have to wait for a textbook to keep learning</h1>
+          <p class="lead">A legal bridging solution that costs parents nothing extra and ends once the official textbooks have arrived.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#tom-tat">Read the report</a>
+            <a class="btn" href="app.html?lang=en">Open the demo app</a>
+          </div>
+        </div>
+        <figure class="hero-photo">
+          <img src="classroom.jpg" alt="A classroom in Vietnam with rows of two-seat desks" width="960" height="516" fetchpriority="high">
+          <figcaption>Illustration: <a href="https://commons.wikimedia.org/wiki/File:Classroom_in_Vietnam_(cropped).jpg" target="_blank" rel="noopener">“Classroom in Vietnam”</a> by Phat14082005, licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, resized.</figcaption>
+        </figure>
+      </div>
+      <ul class="figures" aria-label="Key figures">
+        <li><b>3,916,370</b><span>textbook copies missing nationwide on 14 September 2026 <a class="ref" href="#n1">[1]</a></span></li>
+        <li><b>24 Sept</b><span>the day the Ministry of Education and Training said the shortage had been filled <a class="ref" href="#n2">[2]</a></span></li>
+        <li><b>3,026</b><span>students in Can Tho still missing at least one book on 25 September <a class="ref" href="#n3">[3]</a></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container report">
+    <aside class="toc" aria-label="Contents">
+      <div>
+        <details open>
+          <summary>Contents</summary>
+          <ol>
+            <li><a href="#danh-muc">Lists of figures, tables, abbreviations</a></li>
+            <li><a href="#tom-tat">Summary</a></li>
+            <li><a href="#van-de">Chapter 1. Introduction</a></li>
+            <li><a href="#phan-tich">Chapter 2. Problem analysis</a></li>
+            <li><a href="#giai-phap">Chapter 3. Proposed solution</a></li>
+            <li><a href="#ung-dung">Chapter 4. The BookBridge app</a></li>
+            <li><a href="#danh-gia">Chapter 5. Evaluation and rollout</a></li>
+            <li><a href="#ket-luan">Chapter 6. Conclusion</a></li>
+            <li><a href="#nguon">References</a></li>
+          </ol>
+        </details>
+      </div>
+    </aside>
+
+    <main id="main" class="report-body" tabindex="-1">
+      <section id="danh-muc" class="front">
+        <h2>List of figures</h2>
+        <ul>
+          <li><a href="#hinh-1-1">Figure 1.1: Textbook copies missing nationwide, September 2026</a></li>
+        </ul>
+        <h2>List of tables</h2>
+        <ul>
+          <li><a href="#bang-4-1">Table 4.1: Real problems and how the app addresses them</a></li>
+          <li><a href="#bang-4-2">Table 4.2: Users and functions</a></li>
+          <li><a href="#bang-5-1">Table 5.1: BookBridge against the six criteria</a></li>
+          <li><a href="#bang-5-2">Table 5.2: Risks and mitigation</a></li>
+        </ul>
+        <h2>Abbreviations</h2>
+        <ul>
+          <li><strong>MOET:</strong> Ministry of Education and Training (Bộ Giáo dục và Đào tạo)</li>
+          <li><strong>DOET:</strong> provincial Department of Education and Training (Sở Giáo dục và Đào tạo)</li>
+          <li><strong>C1 to C6:</strong> the six criteria used to assess a solution (section 2.3)</li>
+          <li><strong>CC BY-SA:</strong> Creative Commons Attribution-ShareAlike licence</li>
+        </ul>
+      </section>
+
+      <section id="tom-tat">
+        <h2>Summary</h2>
+        <p>At the start of the 2026-2027 school year, localities across Vietnam were still more than 3.9 million textbook copies short on 14 September <a class="ref" href="#n1">[1]</a>. According to MOET, the missing copies had been supplied by the end of 24 September <a class="ref" href="#n2">[2]</a>. This report therefore <strong>does not propose a fix for the shortage that has passed</strong>. It addresses two situations: shortages that arise during the school year, and the start of the 2027-2028 school year.</p>
+        <p>Photocopying is the first thing people think of when books are missing, but it may infringe copyright. <strong>BookBridge</strong> rests on three observations:</p>
+        <ul>
+          <li><strong>The shortage is local and temporary.</strong> The books will arrive, and while they are on the way some places have spare copies and others are short. The first job is coordination, not copying.</li>
+          <li><strong>Students need to learn, not necessarily to own a copy each right away.</strong> Sharing books in class, study pairs and teacher-made worksheets keep lessons going for a few weeks.</li>
+          <li><strong>Good measures already exist, but they are disconnected.</strong> Library lending, e-textbooks and redistribution were all used. What is missing is a shared layer of information that ties them together.</li>
+        </ul>
+        <p>The solution has two tiers: classroom measures (Chapter 3) and a web app that coordinates books (Chapter 4).</p>
+      </section>
+
+      <section id="van-de">
+        <h2><span class="sec-num">Chapter 1.</span>Introduction</h2>
+
+        <h3>1.1. Background</h3>
+        <p>In the 2026-2027 school year the whole country uses a single textbook series <a class="ref" href="#n4">[4]</a>. Supply did not keep up in many places. According to MOET, at 6 pm on 14 September 2026 localities were still short of 3,916,370 copies, about 1.5% of total demand <a class="ref" href="#n1">[1]</a>.</p>
+        <figure class="chart" id="hinh-1-1">
+          <ul>
+            <li><span>14/9</span><div><i style="--v:100"></i><b>3.92 million</b></div></li>
+            <li><span>15/9</span><div><i style="--v:69"></i><b>over 2.7 million</b></div></li>
+            <li><span>20/9</span><div><i style="--v:20"></i><b>0.78 million</b></div></li>
+            <li><span>24/9</span><div><i style="--v:0"></i><b>MOET reports the shortage filled</b></div></li>
+          </ul>
+          <figcaption>Figure 1.1: Textbook copies missing nationwide, September 2026. Source: MOET figures as reported in <a href="#n1">[1]</a> and <a href="#n2">[2]</a>.</figcaption>
+        </figure>
+
+        <h3>1.2. The problem</h3>
+        <p>The national total fell quickly, but the picture on the ground was different:</p>
+        <ul>
+          <li>On 25 September, Can Tho city still had 3,026 students missing at least one book, or 9,026 copies not yet supplied <a class="ref" href="#n3">[3]</a>.</li>
+          <li>In Hue, about 21% of students did not have a full set of printed textbooks at the start of the year <a class="ref" href="#n1">[1]</a>.</li>
+          <li>Parents did not know when the books would arrive or where to buy them. One parent travelled nearly 250 km from Soc Trang to Ho Chi Minh City and still could not buy a full set <a class="ref" href="#n3">[3]</a>.</li>
+          <li>Without information, photocopying is the easiest way to cope. Copying copyrighted material without the rights holder's permission can raise legal issues.</li>
+        </ul>
+
+        <h3>1.3. Goal and scope</h3>
+        <p><strong>The question:</strong> how can students keep learning normally while waiting for their books, in a way that respects copyright, costs little and can start immediately?</p>
+        <p>The shortage at the start of 2026-2027 was handled by printing more copies. This proposal is for:</p>
+        <ul>
+          <li><strong>Shortages during the school year:</strong> students changing schools, damaged or lost books, and places that remain short locally after the national total is filled, as in Can Tho above.</li>
+          <li><strong>The start of the 2027-2028 school year:</strong> schools enter their numbers before the first day, so that places with a surplus and places with a shortage can see each other before the shortage hits.</li>
+        </ul>
+
+        <h3>1.4. Structure of the report</h3>
+        <p>Chapter 2 analyses the problem and the measures already taken. Chapter 3 presents the proposed solution. Chapter 4 introduces the BookBridge app. Chapter 5 evaluates the solution and sets out a rollout plan. Chapter 6 concludes.</p>
+      </section>
+
+      <section id="phan-tich">
+        <h2><span class="sec-num">Chapter 2.</span>Problem analysis and measures already taken</h2>
+
+        <h3>2.1. The nature of the shortage</h3>
+        <ol>
+          <li><strong>A shortage in time:</strong> the books have not arrived, but they will. The solution only needs to bridge a few weeks, not replace the books.</li>
+          <li><strong>A shortage in distribution:</strong> some places have too many, others too few. MOET itself asked for books to be moved from places with a surplus to places with a shortage <a class="ref" href="#n5">[5]</a>.</li>
+          <li><strong>A shortage of information:</strong> MOET named demand forecasting that lagged behind reality and book coordination that was not fast enough among the causes <a class="ref" href="#n6">[6]</a>. Schools do not know when books will arrive, suppliers cannot see demand school by school, and parents do not know the legal sources.</li>
+        </ol>
+
+        <h3>2.2. Legal constraints</h3>
+        <p>Textbooks are protected by copyright. Under Vietnam's Law on Intellectual Property, copying and distributing a work requires the rights holder's permission, apart from a few narrow exceptions that come with conditions. Mass reproduction to hand out to students in place of the real book should not be assumed to fall within those exceptions.</p>
+        <div class="callout callout-warn">This report is not legal advice. Before applying it, a school or DOET should consult its legal office.</div>
+        <p>Design principle: <strong>only legally printed copies are moved around, and no copy is made without written permission.</strong></p>
+
+        <h3>2.3. Criteria for a solution</h3>
+        <ol>
+          <li><strong>C1. Continuity of learning:</strong> students do not fall behind the curriculum.</li>
+          <li><strong>C2. Legal:</strong> complies with copyright rules.</li>
+          <li><strong>C3. Low cost:</strong> parents pay nothing extra.</li>
+          <li><strong>C4. Fast to deploy:</strong> usable at a school right away, and able to scale.</li>
+          <li><strong>C5. Uses what is already there:</strong> technology, libraries, sharing arrangements.</li>
+          <li><strong>C6. Temporary:</strong> has a clear end point.</li>
+        </ol>
+
+        <h3 id="phuong-an">2.4. Measures already taken and their results</h3>
+        <p>This section looks at measures that were actually used, in Vietnam and abroad, and compares each with BookBridge.</p>
+        <div class="rows">
+          <div>
+            <h4>2.4.1. Extra printing and redistribution directed by MOET</h4>
+            <div>
+              <p><strong>Result:</strong> Official Dispatch 6128/BGDĐT-GDPT of 10 September 2026 asked each DOET to review the situation down to every school and move books from places with a surplus to places with a shortage, finishing before 15 September <a class="ref" href="#n5">[5]</a>. The shortage fell from more than 3.9 million copies (14 September) to just over 776,000 (20 September), and the rest was supplied by the end of 24 September <a class="ref" href="#n2">[2]</a>.</p>
+              <p><strong>Limits:</strong> the 15 September deadline was missed. On 25 September, Can Tho still had 3,026 students without books <a class="ref" href="#n3">[3]</a>. Parents had no channel to learn when the books would arrive.</p>
+              <p><strong>Compared with BookBridge:</strong> the same direction, redistribution. The difference: schools update the numbers themselves for each title, a school that is short and a school with a surplus see each other directly, and parents see the expected date.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.2. Free e-textbooks</h4>
+            <div>
+              <p><strong>Result:</strong> Vietnam Education Publishing House provides free e-textbooks for grades 1 to 12 at <a href="https://taphuan.nxbgd.vn" target="_blank" rel="noopener">taphuan.nxbgd.vn</a> <a class="ref" href="#n7">[7]</a>. Hanoi put e-textbooks into the iHanoi app <a class="ref" href="#n1">[1]</a>. No published figure was found for how many students actually studied from the electronic version (to be verified).</p>
+              <p><strong>Limits:</strong> “Not every family has a computer, a tablet or a stable Internet connection” (translated) <a class="ref" href="#n1">[1]</a>. Young children should not study mainly on electronic devices.</p>
+              <p><strong>Compared with BookBridge:</strong> the app links to this official source and treats it as a supporting measure, not the main one.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.3. Library lending, sharing, used books</h4>
+            <div>
+              <p><strong>Result:</strong> Vo Thi Sau Primary School (Dak Lak) asked students to share last year's copies of the series, which were gathered in the library for students without a full set to borrow. Nguyen Chon Lower Secondary School (Da Nang) was about 700 single books short and collected more than 140 sets for students in difficulty. In some branch schools in Hue, two students shared one book <a class="ref" href="#n1">[1]</a>.</p>
+              <p><strong>Limits:</strong> every school fends for itself. Spare books at one school do not reach another school that is short.</p>
+              <p><strong>Compared with BookBridge:</strong> Tier 1 takes exactly these practices as its standard. Tier 2 adds loan turns and coordination between schools.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.4. Public monitoring of deliveries (Philippines)</h4>
+            <div>
+              <p><strong>Result:</strong> the Textbook Count programme, started in 2003, let civil society organisations follow textbook deliveries to schools. The organisations were present at 71% of deliveries, volunteers reported 95% error-free deliveries, and textbook prices fell by 40-50% <a class="ref" href="#n8">[8]</a>.</p>
+              <p><strong>Limits:</strong> it needs a large volunteer force. The programme deals with delivery, not with learning while books are on the way.</p>
+              <p><strong>Compared with BookBridge:</strong> the step “the school confirms it received the delivery” is a light version of this approach.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.5. Simply handing out more books (Kenya)</h4>
+            <div>
+              <p><strong>Result:</strong> a randomised trial in rural Kenya found that providing textbooks did not raise the scores of the average student. Only students who were already doing well benefited <a class="ref" href="#n9">[9]</a>.</p>
+              <p><strong>Compared with BookBridge:</strong> having the book is not enough, how teaching and learning are organised matters too. That is why Tier 1 includes worksheets and study pairs. The Kenyan setting differs from Vietnam, so this result is used for reference only.</p>
+            </div>
+          </div>
+        </div>
+        <p><strong>Observation:</strong> BookBridge does not invent a new measure. The measures above produced results, but they ran separately and without sharing information. BookBridge ties them together with one source of numbers that schools, suppliers and parents can all see.</p>
+      </section>
+
+      <section id="giai-phap">
+        <h2><span class="sec-num">Chapter 3.</span>Proposed solution: BookBridge</h2>
+
+        <h3>3.1. Overview</h3>
+        <p>BookBridge has two tiers. Tier 1 applies from the first day. Tier 2 reduces the number of students who need Tier 1.</p>
+
+        <h3>3.2. Tier 1: in the classroom</h3>
+        <p>No technology, usable immediately.</p>
+        <div class="rows">
+          <div>
+            <h4>3.2.1. Shared class bookshelf</h4>
+            <div><p>Gather the copies the class already has on one shelf in the classroom. During lessons, each desk shares one copy. The books stay in the classroom and are not taken home.</p>
+            <p class="small muted">Cost: none. Run by: the homeroom teacher.</p></div>
+          </div>
+          <div>
+            <h4>3.2.2. Study pairs</h4>
+            <div><p>Pair a student who has the book with one who does not, preferring students who live near each other, so they can do homework together.</p>
+            <p class="small muted">Cost: none. Run by: the homeroom teacher and the parents' committee.</p></div>
+          </div>
+          <div>
+            <h4>3.2.3. Teacher-made worksheets</h4>
+            <div><p>Teachers write worksheets that follow the lesson objectives in the curriculum: questions, exercises, a summary of the main points in the teacher's own words. The worksheets do not copy the textbook's text.</p>
+            <p class="small muted">Cost: printing a few pages a week, paid by the school.</p></div>
+          </div>
+        </div>
+
+        <h3>3.3. Tier 2: the coordination platform</h3>
+        <p>A web app connecting schools, parents and suppliers. It holds no textbook content, only the <em>quantities</em> and <em>movements</em> of legally printed copies. Chapter 4 describes it in detail.</p>
+
+        <h3>3.4. Fallback: licensed temporary printing</h3>
+        <p>If a title is missing widely and for a long time, a DOET or school can ask the publisher for permission to print a limited part temporarily, for example the lessons of the first 3-4 weeks. Unlike photocopying, this has the rights holder's written permission, a controlled number of copies and a recall. It is slow and costs money, so it is not a tier of the solution.</p>
+      </section>
+
+      <section id="ung-dung">
+        <h2><span class="sec-num">Chapter 4.</span>The BookBridge app</h2>
+
+        <h3>4.1. What problem the app solves</h3>
+        <p class="caption" id="bang-4-1">Table 4.1: Real problems and how the app addresses them</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Real problem</th><th>How the app addresses it</th></tr></thead>
+            <tbody>
+              <tr><td>Nobody can see which school lacks which title. The national total says the gap is filled while individual places are still short <a class="ref" href="#n3">[3]</a>.</td><td>Each school enters three numbers per title: needed, in stock, on the loan shelf. The app works out each school's shortage, incoming books and surplus.</td></tr>
+              <tr><td>Spare books at one school do not reach the school next door that is short.</td><td>The app matches schools with a surplus to schools short of the same title, same area first. The school that is short sends a request, the donor accepts, the receiver confirms.</td></tr>
+              <tr><td>Suppliers do not know how many to deliver, or to whom first.</td><td>The demand list is sorted by remaining shortage, after subtracting books in transit and what spare books can cover. The supplier schedules deliveries straight from the list.</td></tr>
+              <tr><td>Parents do not know when books will arrive and go looking for them on their own <a class="ref" href="#n3">[3]</a>.</td><td>Parents see which titles are complete, which are on the way and the expected date. While waiting, they sign up for a rotating loan or open the official e-textbook.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>4.2. Users and functions</h3>
+        <p class="caption" id="bang-4-2">Table 4.2: Users and functions</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>User</th><th>What they can do</th></tr></thead>
+            <tbody>
+              <tr><td>School</td><td>Update demand and current stock. Confirm deliveries. Request or give spare books to other schools. Approve rotating loan requests.</td></tr>
+              <tr><td>Parents, students</td><td>See whether the school's books have arrived and the expected date. Open the e-textbook from the official source. Sign up for a rotating loan.</td></tr>
+              <tr><td>Publisher, distributor</td><td>See remaining demand by school and title. Schedule deliveries and update their status.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>In a real deployment, schools and suppliers sign in with an account. Parents need no account and only see the book status of their own school. The demo lets you pick a role directly.</p>
+
+        <h3>4.3. Example: one transfer</h3>
+        <p class="small muted">The numbers in this example come from the demo's sample data, not from real figures.</p>
+        <ol class="steps">
+          <li><strong>Schools enter their numbers.</strong> Anh Duong Primary School needs 150 copies of Math 1 and has 110. Sao Mai Primary School, in the same area, needs 180 and has 205.</li>
+          <li><strong>The app finds the match.</strong> Anh Duong sees a suggestion: Sao Mai has 25 spare copies. The school presses “Send request”.</li>
+          <li><strong>The two schools agree.</strong> Sao Mai presses “Accept” and sends the books. Anh Duong presses “Confirm receipt”. Both schools' stock updates automatically.</li>
+          <li><strong>Only the remainder needs a delivery.</strong> Anh Duong is still 15 copies short. The supplier sees exactly that number and schedules a delivery. Parents see the expected date.</li>
+        </ol>
+
+        <h3>4.4. The demo and how to try it</h3>
+        <p>The demo has 12 schools in 3 areas, 14 titles and 3 suppliers. School and supplier names are fictional. Three scenarios to try:</p>
+        <ul>
+          <li><strong>A school that is short finds a school with a surplus:</strong> open <a href="app.html?lang=en#school/s2/transfer">Anh Duong Primary School's transfer tab</a> and press “Send request”.</li>
+          <li><strong>A parent checks when the books arrive:</strong> open <a href="app.html?lang=en#parent/s2">the parent page of the same school</a>.</li>
+          <li><strong>A supplier knows where to deliver:</strong> open <a href="app.html?lang=en#supplier/d1/demand">the demand list</a> and press “Schedule delivery”.</li>
+        </ul>
+        <p>The <a href="app.html?lang=en#about">About page in the app</a> shows region-wide numbers computed from the current data.</p>
+
+        <h3>4.5. Technology</h3>
+        <p>The app is written in plain HTML, CSS and JavaScript, runs for free on GitHub Pages and keeps its data in the browser. For several schools to share data, run it with the <code>server.py</code> backend (Python only, nothing to install).</p>
+      </section>
+
+      <section id="danh-gia">
+        <h2><span class="sec-num">Chapter 5.</span>Evaluation and rollout plan</h2>
+
+        <h3>5.1. Against the criteria</h3>
+        <p class="caption" id="bang-5-1">Table 5.1: BookBridge against the six criteria</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Criterion</th><th>How BookBridge meets it</th></tr></thead>
+            <tbody>
+              <tr><td>C1. Continuity of learning</td><td>Day one: class bookshelf and worksheets. After a few days: spare books are transferred, e-textbooks for families with a device.</td></tr>
+              <tr><td>C2. Legal</td><td>No copies are made. Only legally printed copies are moved and lent. E-textbooks are linked, not stored.</td></tr>
+              <tr><td>C3. Low cost</td><td>Parents pay nothing. The school pays for printing worksheets. The app runs for free on GitHub Pages.</td></tr>
+              <tr><td>C4. Fast to deploy</td><td>Tier 1 needs no preparation. The app opens in a phone browser with nothing to install.</td></tr>
+              <tr><td>C5. Uses what is there</td><td>Uses school libraries, existing spare books, the official e-textbook source, and the network of teachers and parents.</td></tr>
+              <tr><td>C6. Temporary</td><td>Has a clear end condition (section 5.3).</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>5.2. Risks and mitigation</h3>
+        <p class="caption" id="bang-5-2">Table 5.2: Risks and mitigation</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Risk</th><th>Mitigation</th></tr></thead>
+            <tbody>
+              <tr><td>Schools enter numbers late or wrongly</td><td>Only 3 numbers per title. Confirming a delivery updates the numbers automatically.</td></tr>
+              <tr><td>Lent books are damaged or lost</td><td>Short loans, recorded by name and class. Transferred books are labelled with the school of origin.</td></tr>
+              <tr><td>Families without a device or Internet</td><td>Tier 1 needs no technology. The homeroom teacher reports book status at class meetings or on paper.</td></tr>
+              <tr><td>Students' personal data leaks</td><td>Only name and class are collected. Loan data is deleted when the bridging period ends.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>5.3. End condition</h3>
+        <p>BookBridge is a <strong>bridging</strong> solution. It ends when every title at a school shows “Still short = 0” in the app. At that point:</p>
+        <ul>
+          <li>Close rotating loans, return the books to the library, and send transferred books back to the school of origin if the two schools agreed to that.</li>
+          <li>Delete students' loan data. Aggregate numbers, with no personal information, can be kept to forecast next year's demand.</li>
+        </ul>
+
+        <h3 id="trien-khai">5.4. Rollout plan</h3>
+        <p>The plan below is for the start of the 2027-2028 school year. For a shortage in the middle of the year, a school starts from the “Week 1” step.</p>
+        <ol class="timeline">
+          <li><strong>Week 0 (before the first day)</strong>Schools enter demand and current stock. Homeroom teachers set up the class bookshelf. Subject teams write worksheets for the first 2 weeks.</li>
+          <li><strong>Week 1</strong>Form study pairs. Schools send and approve requests to transfer spare books. The library opens the rotating loan shelf.</li>
+          <li><strong>Weeks 2-4</strong>Suppliers deliver according to the schedule in the app. Schools confirm on receipt.</li>
+          <li><strong>When all books have arrived</strong>Trigger the end condition (section 5.3). Summarise the numbers to forecast next year's demand.</li>
+        </ol>
+      </section>
+
+      <section id="ket-luan">
+        <h2><span class="sec-num">Chapter 6.</span>Conclusion</h2>
+        <p>BookBridge does not try to replace textbooks. Its goal is to <strong>make better use of the legal copies that already exist</strong> and to <strong>keep lessons going</strong> until the official books have all arrived. September 2026 showed that the individual measures work but lack shared information. BookBridge adds exactly that, and is ready both for shortages during the year and for the start of the 2027-2028 school year.</p>
+        <p><a class="btn btn-primary" href="app.html?lang=en">Try the BookBridge app</a></p>
+      </section>
+
+      <section id="nguon">
+        <h2>References</h2>
+        <p class="small muted">Sources [1] to [7] are in Vietnamese. Titles are given in the original with an English translation.</p>
+        <ol class="sources small">
+          <li id="n1">“Mở rộng cách tiếp cận sách giáo khoa cho học sinh” [Widening students' access to textbooks], <em>Giáo dục và Thời đại</em>, 16 Sept. 2026. [Online]. Available: <a href="https://giaoducthoidai.vn/mo-rong-cach-tiep-can-sach-giao-khoa-cho-hoc-sinh-post792846.html" target="_blank" rel="noopener">giaoducthoidai.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n2">“Bộ GD-ĐT: Đã bổ sung đủ 776.259 bản sách giáo khoa còn thiếu, sẽ kiểm điểm từng người liên quan” [MOET: all 776,259 missing copies supplied, those responsible to be reviewed], <em>Tuổi Trẻ</em>, 24 Sept. 2026. [Online]. Available: <a href="https://tuoitre.vn/bo-gd-dt-da-bo-sung-du-776259-ban-sach-giao-khoa-con-thieu-se-kiem-diem-tung-nguoi-lien-quan-100260924210451002.htm" target="_blank" rel="noopener">tuoitre.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n3">C. X. Lương, “Hết tháng 9, nhiều học sinh và giáo viên vẫn chưa có đủ sách giáo khoa” [At the end of September many students and teachers still lack textbooks], <em>Dân trí</em>, 30 Sept. 2026. [Online]. Available: <a href="https://dantri.com.vn/giao-duc/het-thang-9-nhieu-hoc-sinh-va-giao-vien-van-chua-co-du-sach-giao-khoa-20260930164723437.htm" target="_blank" rel="noopener">dantri.com.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n4">“Thiếu sách giáo khoa: Cần thay đổi cách đặt hàng và phân phối sách” [Textbook shortage: ordering and distribution need to change], <em>Tuổi Trẻ</em>, 13 Sept. 2026. [Online]. Available: <a href="https://tuoitre.vn/thieu-sach-giao-khoa-can-thay-doi-cach-dat-hang-va-phan-phoi-sach-100260913135152345.htm" target="_blank" rel="noopener">tuoitre.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n5">“Yêu cầu hoàn thành cung ứng sách giáo khoa còn thiếu cho học sinh trước 15/9/2026” [Missing textbooks to be supplied before 15 September 2026] (on Official Dispatch 6128/BGDĐT-GDPT), <em>LuatVietnam</em>, 2026. [Online]. Available: <a href="https://luatvietnam.vn/tin-van-ban-moi/yeu-cau-hoan-thanh-cung-ung-sach-giao-khoa-con-thieu-cho-hoc-sinh-truoc-15-9-2026-186-112388-article.html" target="_blank" rel="noopener">luatvietnam.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n6">“Bộ Giáo dục và Đào tạo nêu nguyên nhân thiếu sách giáo khoa, khẳng định không để lặp lại trong những năm học sau” [MOET explains the textbook shortage and pledges it will not recur], <em>Nhân Dân</em>, 15 Sept. 2026. [Online]. Available: <a href="https://nhandan.vn/bo-giao-duc-va-dao-tao-neu-nguyen-nhan-thieu-sach-giao-khoa-khang-dinh-khong-de-lap-lai-trong-nhung-nam-hoc-sau-post988632.html" target="_blank" rel="noopener">nhandan.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n7">“Nhà xuất bản Giáo Dục Việt Nam cung cấp sách giáo khoa điện tử miễn phí” [Vietnam Education Publishing House provides free e-textbooks], <em>Tuổi Trẻ</em>, 24 May 2025. [Online]. Available: <a href="https://tuoitre.vn/nxb-giao-duc-viet-nam-cung-cap-sach-giao-khoa-dien-tu-mien-phi-20250524114756652.htm" target="_blank" rel="noopener">tuoitre.vn</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n8">G-Watch, “Delivering educational textbooks to schools in the Philippines: Textbook Count 1-2-3.” [Online]. Available: <a href="https://www.g-watch.org/news-release/delivering-educational-textbooks-schools-philippines-textbook-count-1-2-3" target="_blank" rel="noopener">g-watch.org</a>. Accessed: 1 Oct. 2026.</li>
+          <li id="n9">P. Glewwe, M. Kremer, and S. Moulin, “Many children left behind? Textbooks and test scores in Kenya,” <em>American Economic Journal: Applied Economics</em>, vol. 1, no. 1, pp. 112-135, 2009. <a href="https://www.aeaweb.org/articles?id=10.1257%2Fapp.1.1.112" target="_blank" rel="noopener">doi:10.1257/app.1.1.112</a>.</li>
+        </ol>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container small muted">
+      <p>The data in the demo app is sample data: school and supplier names are fictional. The legal content of this report is for reference only and does not replace legal advice.</p>
+      <p>Source code: <a href="https://github.com/ngth1010v/Book-bridge" target="_blank" rel="noopener">github.com/ngth1010v/Book-bridge</a></p>
+    </div>
+  </footer>
+  <script>
+    // Highlight the current chapter in the table of contents.
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const spy = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) tocLinks.forEach((a) => (a.hash === '#' + e.target.id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    }), { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
+  </script>
+</body>
+</html>

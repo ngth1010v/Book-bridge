@@ -1,82 +1,84 @@
 # BookBridge
 
-Giải pháp chuyển tiếp giúp học sinh không bị gián đoạn việc học khi sách giáo khoa chưa về đủ: tổ chức lại cách dùng sách tại lớp, và một ứng dụng web điều phối các bản sách in hợp pháp đến đúng nơi đang thiếu. Không photocopy, phụ huynh không tốn thêm chi phí.
+A bridging solution that keeps students learning when textbooks have not all arrived: reorganise how books are used in the classroom, and use a small web app to move legally printed copies to the schools that are short. No photocopying, and no extra cost for parents.
 
-- **Xem trực tuyến:** https://ngth1010v.github.io/Book-bridge/
-- **Báo cáo giải pháp:** [`index.html`](https://ngth1010v.github.io/Book-bridge/index.html)
-- **Ứng dụng demo:** [`app.html`](https://ngth1010v.github.io/Book-bridge/app.html)
+- **Live site:** https://ngth1010v.github.io/Book-bridge/
+- **Report:** [English](https://ngth1010v.github.io/Book-bridge/index.en.html) · [Tiếng Việt](https://ngth1010v.github.io/Book-bridge/index.html)
+- **Demo app:** [English](https://ngth1010v.github.io/Book-bridge/app.html?lang=en) · [Tiếng Việt](https://ngth1010v.github.io/Book-bridge/app.html?lang=vi)
 
-Dữ liệu trong ứng dụng là dữ liệu mẫu: tên trường và đơn vị là giả định.
+The site is available in English and Vietnamese; switch with the `EN` / `VI` link in the header. The data in the app is sample data: school and supplier names are fictional.
 
-## Ứng dụng dùng thế nào
+## How the app is used
 
-### Trường thiếu xin sách dư của trường khác
+### A school that is short asks another school for spare books
 
-Trường Ánh Dương thiếu Toán 1, Trường Sao Mai đang dư. Hai trường thỏa thuận ngay trên ứng dụng, số sách tự cập nhật.
+Anh Duong Primary is short of Math 1 and Sao Mai Primary has spare copies. The two schools agree in the app and both stock counts update.
 
-![Điều phối sách dư giữa hai trường](demo/dieu-phoi.gif)
+![Transferring spare books between two schools](demo/transfer.gif)
 
-### Phụ huynh xem sách và đăng ký mượn
+### A parent checks the books and signs up for a loan
 
-Phụ huynh xem đầu sách nào đã đủ, đang về hay đang thiếu, rồi đăng ký mượn luân phiên.
+A parent sees which titles are complete, on the way or short, then signs up to borrow a copy in turn.
 
-![Phụ huynh đăng ký mượn sách](demo/phu-huynh.gif)
+![A parent signing up for a rotating loan](demo/parent.gif)
 
-### Đơn vị cung ứng lên lịch giao
+### A supplier schedules a delivery
 
-Đơn vị cung ứng thấy nơi còn thiếu, tạo lô giao và cập nhật trạng thái.
+A supplier sees where books are still missing, creates a delivery and updates its status.
 
-![Đơn vị cung ứng tạo lô giao](demo/cung-ung.gif)
+![A supplier creating a delivery](demo/supplier.gif)
 
-## Chạy trên máy
+## Run it locally
 
-Chỉ cần Python 3, không cần cài thư viện.
+You only need Python 3. There is nothing to install.
 
-### Web tĩnh (giống GitHub Pages)
+### Static site (same as GitHub Pages)
 
-Dữ liệu lưu trong `localStorage` của trình duyệt, khởi tạo từ `seed.json`.
+Data is kept in the browser's `localStorage`, seeded from `seed.json`.
 
 ```bash
-run.bat                      # Windows, tự mở trình duyệt
-python -m http.server 8000   # hệ điều hành khác
+run.bat                      # Windows, opens the browser for you
+python -m http.server 8000   # any other system
 ```
 
-Mở http://localhost:8000.
+Open http://localhost:8000.
 
-### Web có backend
+### With the backend
 
-Dữ liệu lưu trong SQLite (`data.db`), nhiều máy dùng chung được.
+Data is kept in SQLite (`data.db`), so several machines can share it.
 
 ```bash
-run.bat backend-enable       # Windows, tự mở trình duyệt
-python server.py             # hệ điều hành khác
+run.bat backend-enable       # Windows, opens the browser for you
+python server.py             # any other system
 ```
 
-Mở http://localhost:8000. Ứng dụng tự nhận ra backend và chuyển sang dùng API.
+Open http://localhost:8000. The app detects the backend and switches to the API on its own.
 
-- Nạp lại dữ liệu mẫu: xóa `data.db`.
-- Cho máy khác truy cập: đặt `BOOKBRIDGE_HOST=0.0.0.0`. Backend chưa có đăng nhập, chỉ dùng trong mạng tin cậy.
+- Reload the sample data: delete `data.db`.
+- Let other machines connect: set `BOOKBRIDGE_HOST=0.0.0.0`. The backend has no sign-in yet, so use it on a trusted network only.
 
-## Kiểm tra
+## Tests
 
 ```bash
-node logic.test.js      # logic tính thiếu, dư và gợi ý điều phối
+node logic.test.js      # shortage, surplus and transfer-suggestion logic
+node i18n.test.js       # every app string has an English translation
 python test_server.py   # API
 ```
 
-## Cấu trúc
+## Files
 
-| Tệp | Nội dung |
+| File | What it is |
 | --- | --- |
-| `index.html` | Báo cáo giải pháp |
-| `app.html`, `app.js` | Ứng dụng cho nhà trường, phụ huynh, đơn vị cung ứng |
-| `logic.js` | Hàm thuần: thiếu, dư, đang về, gợi ý điều phối |
-| `styles.css` | Giao diện dùng chung |
-| `seed.json` | Dữ liệu mẫu |
-| `server.py` | Backend tùy chọn (Python stdlib + SQLite) |
+| `index.html`, `index.en.html` | The report, in Vietnamese and English |
+| `app.html`, `app.js` | The app for schools, parents and suppliers |
+| `i18n.js` | English text for the app |
+| `logic.js` | Pure functions: shortage, surplus, incoming, transfer suggestions |
+| `styles.css` | Shared styles |
+| `seed.json` | Sample data |
+| `server.py` | Optional backend (Python standard library + SQLite) |
 
-## Ghi công
+## Credits
 
-- Mã nguồn: giấy phép trong [`LICENSE`](LICENSE).
-- Ảnh `classroom.jpg`: [“Classroom in Vietnam”](https://commons.wikimedia.org/wiki/File:Classroom_in_Vietnam_(cropped).jpg) của Phat14082005, giấy phép [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.vi), đã thu nhỏ.
-- Repo không chứa nội dung sách giáo khoa. Sách điện tử chỉ được dẫn liên kết đến nguồn chính thức.
+- Code: see [`LICENSE`](LICENSE).
+- Photo `classroom.jpg`: [“Classroom in Vietnam”](https://commons.wikimedia.org/wiki/File:Classroom_in_Vietnam_(cropped).jpg) by Phat14082005, licensed [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), resized.
+- The repository contains no textbook content. E-textbooks are only linked at their official source.
