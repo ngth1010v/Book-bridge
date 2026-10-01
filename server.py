@@ -1,4 +1,4 @@
-"""Cau Sach backend: serves the static site plus a small JSON API backed by SQLite.
+"""BookBridge backend: serves the static site plus a small JSON API backed by SQLite.
 
 Stdlib only. Run:  python server.py [port]      (default 8000)
 The client auto-detects the API via GET /api/health; without it, the client falls
@@ -15,7 +15,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
-DB_PATH = Path(os.environ.get("CAUSACH_DB", ROOT / "data.db"))
+DB_PATH = Path(os.environ.get("BOOKBRIDGE_DB", ROOT / "data.db"))
 SEED_PATH = ROOT / "seed.json"
 MAX_BODY = 10_000
 
@@ -152,11 +152,11 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def make_server(port):
-    # Localhost by default; set CAUSACH_HOST=0.0.0.0 to serve other machines (no auth yet!).
-    return ThreadingHTTPServer((os.environ.get("CAUSACH_HOST", "127.0.0.1"), port), Handler)
+    # Localhost by default; set BOOKBRIDGE_HOST=0.0.0.0 to serve other machines (no auth yet!).
+    return ThreadingHTTPServer((os.environ.get("BOOKBRIDGE_HOST", "127.0.0.1"), port), Handler)
 
 
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
-    print(f"Cau Sach: http://localhost:{port}  (database: {DB_PATH})")
+    print(f"BookBridge: http://localhost:{port}  (database: {DB_PATH})")
     make_server(port).serve_forever()

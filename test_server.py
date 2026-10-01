@@ -6,8 +6,8 @@ import threading
 import urllib.error
 import urllib.request
 
-os.environ["CAUSACH_DB"] = os.path.join(tempfile.mkdtemp(), "test.db")
-import server  # noqa: E402  (must import after setting CAUSACH_DB)
+os.environ["BOOKBRIDGE_DB"] = os.path.join(tempfile.mkdtemp(), "test.db")
+import server  # noqa: E402  (must import after setting BOOKBRIDGE_DB)
 
 httpd = server.make_server(0)
 threading.Thread(target=httpd.serve_forever, daemon=True).start()
@@ -27,7 +27,8 @@ def call(method, path, body=None):
 assert call("GET", "/api/health")[0] == 200
 status, body = call("GET", "/api/state")
 state = json.loads(body)
-assert status == 200 and len(state["schools"]) == 5 and state["transfers"] == []
+seed = json.loads(server.SEED_PATH.read_text(encoding="utf-8"))
+assert status == 200 and len(state["schools"]) == len(seed["schools"]) and state["transfers"] == seed["transfers"]
 
 loan = {"schoolId": "s1", "titleId": "tv1", "student": "Lê Văn C", "className": "1A", "status": "requested"}
 status, body = call("POST", "/api/loans", loan)

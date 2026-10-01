@@ -3,37 +3,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cầu Sách — Giải pháp chuyển tiếp khi thiếu sách giáo khoa</title>
+  <title>BookBridge: giải pháp chuyển tiếp khi thiếu sách giáo khoa</title>
   <meta name="description" content="Báo cáo đề xuất giải pháp hợp pháp, chi phí thấp giúp học sinh không gián đoạn việc học khi sách giáo khoa chưa được cung ứng đủ.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&display=swap">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f4fbf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/%3E%3Cpath d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Bỏ qua đến nội dung</a>
-  <header class="site-header">
+  <header class="site-header has-progress">
     <div class="container">
       <a class="brand" href="index.html">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        Cầu Sách
+        BookBridge
       </a>
       <nav class="nav" aria-label="Điều hướng chính">
         <a href="index.html" aria-current="page">Báo cáo giải pháp</a>
         <a href="app.html">Ứng dụng</a>
+        <a href="https://github.com/ngth1010v/Supplying-textbook-solution" target="_blank" rel="noopener">GitHub</a>
       </nav>
     </div>
   </header>
 
   <div class="hero">
     <div class="container">
-      <p class="eyebrow">Báo cáo đề xuất giải pháp</p>
-      <h1>Cầu Sách: không để học sinh phải chờ sách mới được học</h1>
-      <p class="lead">Giải pháp chuyển tiếp gồm ba tầng: tổ chức lại cách dùng sách ngay tại lớp, xin phép in tạm từ chủ sở hữu quyền, và một nền tảng điều phối để đưa những cuốn sách in hợp pháp đến đúng nơi đang thiếu. Giải pháp không tạo bản sao trái phép, phụ huynh không phải trả thêm chi phí, và kết thúc khi sách chính thức về đủ.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#tom-tat">Đọc báo cáo</a>
-        <a class="btn" href="app.html">Mở ứng dụng demo</a>
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">BookBridge · Báo cáo đề xuất giải pháp</p>
+          <h1>Không để học sinh phải chờ sách mới được học</h1>
+          <p class="lead">Giải pháp chuyển tiếp hợp pháp, phụ huynh không phải trả thêm chi phí, và kết thúc khi sách chính thức về đủ.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#tom-tat">Đọc báo cáo</a>
+            <a class="btn" href="app.html">Mở ứng dụng demo</a>
+          </div>
+        </div>
+        <figure class="hero-photo">
+          <img src="classroom.jpg" alt="Một lớp học ở Việt Nam với các dãy bàn hai chỗ ngồi" width="960" height="516" fetchpriority="high">
+          <figcaption>Ảnh minh họa: <a href="https://commons.wikimedia.org/wiki/File:Classroom_in_Vietnam_(cropped).jpg" target="_blank" rel="noopener">“Classroom in Vietnam”</a> của Phat14082005, giấy phép <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.vi" target="_blank" rel="noopener">CC BY-SA 4.0</a>, đã thu nhỏ.</figcaption>
+        </figure>
       </div>
+      <ul class="figures" aria-label="Số liệu chính">
+        <li><b>3.916.370</b><span>bản sách giáo khoa còn thiếu trên cả nước ngày 14/9/2026 <a class="ref" href="#n1">[1]</a></span></li>
+        <li><b>24/9</b><span>ngày Bộ GD&amp;ĐT cho biết đã bổ sung đủ số sách thiếu <a class="ref" href="#n2">[2]</a></span></li>
+        <li><b>3.026</b><span>học sinh Cần Thơ vẫn thiếu ít nhất một bản sách ngày 25/9 <a class="ref" href="#n3">[3]</a></span></li>
+      </ul>
     </div>
   </div>
 
@@ -43,250 +58,317 @@
         <details open>
           <summary>Mục lục</summary>
           <ol>
+            <li><a href="#danh-muc">Danh mục hình, bảng, từ viết tắt</a></li>
             <li><a href="#tom-tat">Tóm tắt</a></li>
-            <li><a href="#van-de">Nêu vấn đề</a></li>
-            <li><a href="#phan-tich">Phân tích vấn đề</a></li>
-            <li><a href="#phuong-an">Các phương án đã cân nhắc</a></li>
-            <li><a href="#giai-phap">Giải pháp đề xuất</a></li>
-            <li><a href="#danh-gia">Phân tích giải pháp</a></li>
-            <li><a href="#trien-khai">Kế hoạch triển khai</a></li>
-            <li><a href="#ket-luan">Kết luận</a></li>
+            <li><a href="#van-de">Chương 1. Giới thiệu</a></li>
+            <li><a href="#phan-tich">Chương 2. Phân tích vấn đề</a></li>
+            <li><a href="#giai-phap">Chương 3. Giải pháp đề xuất</a></li>
+            <li><a href="#ung-dung">Chương 4. Ứng dụng BookBridge</a></li>
+            <li><a href="#danh-gia">Chương 5. Đánh giá và triển khai</a></li>
+            <li><a href="#ket-luan">Chương 6. Kết luận</a></li>
+            <li><a href="#nguon">Tài liệu tham khảo</a></li>
           </ol>
         </details>
       </div>
     </aside>
 
     <main id="main" class="report-body" tabindex="-1">
-      <section id="tom-tat">
-        <h2><span class="sec-num">0.</span>Tóm tắt</h2>
-        <p>Khi hệ thống sách giáo khoa được thống nhất và điều chỉnh, một số trường có thể thiếu sách trong những tuần đầu năm học. Photocopy sách là cách dễ nghĩ đến nhất, nhưng có thể vi phạm quyền tác giả. <strong>Cầu Sách</strong> là giải pháp dựa trên ba nhận định:</p>
+      <section id="danh-muc" class="front">
+        <h2>Danh mục hình</h2>
         <ul>
-          <li><strong>Thiếu sách thường là thiếu cục bộ và tạm thời.</strong> Sách sẽ về, và trong lúc chờ có thể có trường thừa, trường thiếu. Vì vậy, việc cần làm trước tiên là điều phối, không phải sao chép.</li>
-          <li><strong>Học sinh cần được học, không nhất thiết mỗi em phải có một cuốn sách riêng ngay lập tức.</strong> Dùng chung sách tại lớp, học nhóm và phiếu học tập của giáo viên có thể giữ nhịp học trong vài tuần.</li>
-          <li><strong>Mọi việc nhân bản nội dung phải có sự cho phép của chủ sở hữu quyền.</strong> Nếu thật sự cần bản in, Sở hoặc nhà trường đề nghị nhà xuất bản cấp phép in tạm.</li>
+          <li><a href="#hinh-1-1">Hình 1.1: Số bản sách giáo khoa còn thiếu trên cả nước, tháng 9/2026</a></li>
         </ul>
-        <div class="callout">Kèm theo báo cáo là <a href="app.html">ứng dụng web demo</a> cho ba nhóm người dùng: nhà trường, phụ huynh và học sinh, nhà xuất bản và đơn vị phân phối. Ứng dụng chạy tĩnh trên GitHub Pages. Có thể chạy kèm máy chủ Python để dùng thật.</div>
+        <h2>Danh mục bảng</h2>
+        <ul>
+          <li><a href="#bang-4-1">Bảng 4.1: Vấn đề thực tế và cách ứng dụng giải quyết</a></li>
+          <li><a href="#bang-4-2">Bảng 4.2: Người dùng và chức năng</a></li>
+          <li><a href="#bang-5-1">Bảng 5.1: Đối chiếu BookBridge với sáu tiêu chí</a></li>
+          <li><a href="#bang-5-2">Bảng 5.2: Rủi ro và cách giảm thiểu</a></li>
+        </ul>
+        <h2>Danh mục từ viết tắt</h2>
+        <ul>
+          <li><strong>Bộ GD&amp;ĐT:</strong> Bộ Giáo dục và Đào tạo</li>
+          <li><strong>Sở:</strong> Sở Giáo dục và Đào tạo</li>
+          <li><strong>THCS:</strong> trung học cơ sở</li>
+          <li><strong>TC1 đến TC6:</strong> sáu tiêu chí đánh giá giải pháp (mục 2.3)</li>
+          <li><strong>CC BY-SA:</strong> giấy phép Creative Commons Ghi công, Chia sẻ tương tự</li>
+        </ul>
+      </section>
+
+      <section id="tom-tat">
+        <h2>Tóm tắt</h2>
+        <p>Đầu năm học 2026-2027, đến ngày 14/9 các địa phương còn thiếu hơn 3,9 triệu bản sách giáo khoa <a class="ref" href="#n1">[1]</a>. Theo Bộ GD&amp;ĐT, số sách này đã được bổ sung đủ đến hết ngày 24/9 <a class="ref" href="#n2">[2]</a>. Vì vậy báo cáo <strong>không đề xuất cho đợt thiếu đã qua</strong>, mà cho hai tình huống: thiếu sách phát sinh trong năm học, và đầu năm học 2027-2028.</p>
+        <p>Photocopy sách là cách dễ nghĩ đến nhất khi thiếu, nhưng có thể vi phạm quyền tác giả. <strong>BookBridge</strong> dựa trên ba nhận định:</p>
+        <ul>
+          <li><strong>Thiếu sách là thiếu cục bộ và tạm thời.</strong> Sách sẽ về, và trong lúc chờ có nơi dư, nơi thiếu. Việc cần làm trước tiên là điều phối, không phải sao chép.</li>
+          <li><strong>Học sinh cần được học, không nhất thiết mỗi em phải có một cuốn sách riêng ngay lập tức.</strong> Dùng chung sách tại lớp, học nhóm và phiếu học tập của giáo viên giữ được nhịp học trong vài tuần.</li>
+          <li><strong>Các biện pháp tốt đã có sẵn, nhưng rời rạc.</strong> Thư viện cho mượn, sách điện tử, điều chuyển sách đều đã được dùng. Cái còn thiếu là một lớp thông tin chung nối các biện pháp đó lại.</li>
+        </ul>
+        <p>Giải pháp gồm hai tầng: các biện pháp tại lớp học (Chương 3) và một ứng dụng web điều phối sách (Chương 4).</p>
       </section>
 
       <section id="van-de">
-        <h2><span class="sec-num">1.</span>Nêu vấn đề</h2>
-        <p>Trong quá trình thống nhất và điều chỉnh hệ thống sách giáo khoa, nguồn cung sách tại một số địa phương và cơ sở giáo dục có thể chưa đáp ứng kịp nhu cầu. Hệ quả:</p>
+        <h2><span class="sec-num">Chương 1.</span>Giới thiệu</h2>
+
+        <h3>1.1. Bối cảnh</h3>
+        <p>Năm học 2026-2027, cả nước dùng thống nhất một bộ sách giáo khoa <a class="ref" href="#n4">[4]</a>. Nguồn cung không kịp ở nhiều nơi. Theo Bộ GD&amp;ĐT, đến 18 giờ ngày 14/9/2026 các địa phương còn thiếu 3.916.370 bản, khoảng 1,5% tổng nhu cầu <a class="ref" href="#n1">[1]</a>.</p>
+        <figure class="chart" id="hinh-1-1">
+          <ul>
+            <li><span>14/9</span><div><i style="--v:100"></i><b>3,92 triệu</b></div></li>
+            <li><span>15/9</span><div><i style="--v:69"></i><b>hơn 2,7 triệu</b></div></li>
+            <li><span>20/9</span><div><i style="--v:20"></i><b>0,78 triệu</b></div></li>
+            <li><span>24/9</span><div><i style="--v:0"></i><b>Bộ báo cáo đã bổ sung đủ</b></div></li>
+          </ul>
+          <figcaption>Hình 1.1: Số bản sách giáo khoa còn thiếu trên cả nước, tháng 9/2026. Nguồn: số liệu Bộ GD&amp;ĐT, dẫn theo <a href="#n1">[1]</a> và <a href="#n2">[2]</a>.</figcaption>
+        </figure>
+
+        <h3>1.2. Vấn đề</h3>
+        <p>Con số tổng hợp giảm nhanh, nhưng ở từng nơi tình hình khác:</p>
         <ul>
-          <li>Một bộ phận học sinh chưa có đủ tài liệu học tập trong những tuần đầu năm học.</li>
-          <li>Phụ huynh lo con bị chậm chương trình, trong khi không biết khi nào sách về và mua ở đâu.</li>
-          <li>Giáo viên khó dạy theo sách khi trong cùng một lớp có em có sách, có em không.</li>
-          <li>Phụ huynh tự photocopy hoặc chụp sách để dùng tạm. Việc sao chép và phát hành tài liệu có bản quyền khi chưa được chủ sở hữu quyền tác giả cho phép có thể phát sinh vấn đề pháp lý về sở hữu trí tuệ.</li>
+          <li>Đến ngày 25/9, thành phố Cần Thơ còn 3.026 học sinh thiếu ít nhất một bản sách, tương ứng 9.026 bản chưa được cung cấp <a class="ref" href="#n3">[3]</a>.</li>
+          <li>Tại Huế, đầu năm học khoảng 21% học sinh chưa có đủ bộ sách bản in <a class="ref" href="#n1">[1]</a>.</li>
+          <li>Phụ huynh không biết khi nào có sách và mua ở đâu. Một phụ huynh đi gần 250 km từ Sóc Trăng lên TP.HCM vẫn không mua đủ <a class="ref" href="#n3">[3]</a>.</li>
+          <li>Khi không có thông tin, photocopy là cách tự xoay xở dễ nhất. Sao chép tài liệu có bản quyền khi chưa được chủ sở hữu quyền cho phép có thể phát sinh vấn đề pháp lý.</li>
         </ul>
+
+        <h3>1.3. Mục tiêu và phạm vi</h3>
         <p><strong>Câu hỏi cần trả lời:</strong> làm thế nào để học sinh tiếp tục học bình thường trong thời gian chờ sách, đồng thời tuân thủ quy định về bản quyền, tốn ít chi phí và triển khai được ngay?</p>
+        <p>Đợt thiếu đầu năm học 2026-2027 đã được xử lý bằng in bổ sung. Đề xuất này dành cho:</p>
+        <ul>
+          <li><strong>Thiếu phát sinh trong năm học:</strong> học sinh chuyển trường, sách hỏng hoặc mất, và những nơi vẫn còn thiếu cục bộ sau khi số liệu tổng hợp đã đủ, như trường hợp Cần Thơ ở trên.</li>
+          <li><strong>Đầu năm học 2027-2028:</strong> nhà trường nhập số liệu trước khai giảng, để nơi dư và nơi thiếu thấy nhau trước khi đợt thiếu xảy ra.</li>
+        </ul>
+
+        <h3>1.4. Cấu trúc báo cáo</h3>
+        <p>Chương 2 phân tích vấn đề và các giải pháp đã triển khai. Chương 3 trình bày giải pháp đề xuất. Chương 4 giới thiệu ứng dụng BookBridge. Chương 5 đánh giá giải pháp và nêu kế hoạch triển khai. Chương 6 kết luận.</p>
       </section>
 
       <section id="phan-tich">
-        <h2><span class="sec-num">2.</span>Phân tích vấn đề</h2>
+        <h2><span class="sec-num">Chương 2.</span>Phân tích vấn đề và các giải pháp đã triển khai</h2>
 
         <h3>2.1. Bản chất của sự thiếu hụt</h3>
-        <p>Có thể tách vấn đề thành ba lớp:</p>
         <ol>
           <li><strong>Thiếu về thời gian:</strong> sách chưa về, nhưng sẽ về. Giải pháp chỉ cần “bắc cầu” trong vài tuần, không cần thay thế sách.</li>
-          <li><strong>Thiếu về phân bổ:</strong> dự báo số lượng không khớp thực tế, do học sinh chuyển trường hoặc số lớp thay đổi. Có thể có trường nhận thừa trong khi trường gần đó nhận thiếu. <em>Mức độ của hiện tượng này cần được kiểm chứng bằng số liệu thực tế. Chính ứng dụng Cầu Sách sẽ thu thập số liệu đó.</em></li>
-          <li><strong>Thiếu thông tin:</strong> nhà trường không biết khi nào sách về, đơn vị phân phối không thấy nhu cầu theo thời gian thực, phụ huynh không biết nguồn tài liệu hợp pháp. Khi thiếu thông tin, mỗi bên tự xoay xở, và photocopy là cách tự xoay xở dễ nhất.</li>
+          <li><strong>Thiếu về phân bổ:</strong> có nơi dư, có nơi thiếu. Chính Bộ GD&amp;ĐT đã yêu cầu điều chuyển sách từ nơi dư đến nơi thiếu <a class="ref" href="#n5">[5]</a>.</li>
+          <li><strong>Thiếu thông tin:</strong> Bộ GD&amp;ĐT nêu nguyên nhân gồm dự báo nhu cầu chưa theo kịp thực tế và điều phối nguồn sách chưa đủ nhanh <a class="ref" href="#n6">[6]</a>. Nhà trường không biết khi nào sách về, đơn vị cung ứng không thấy nhu cầu theo từng trường, phụ huynh không biết nguồn tài liệu hợp pháp.</li>
         </ol>
 
         <h3>2.2. Ràng buộc pháp lý</h3>
-        <p>Sách giáo khoa là tác phẩm được bảo hộ quyền tác giả. Theo Luật Sở hữu trí tuệ, việc sao chép và phân phối tác phẩm cần sự cho phép của chủ sở hữu quyền, trừ một số trường hợp ngoại lệ được luật quy định. Các ngoại lệ phục vụ giảng dạy và học tập có phạm vi hẹp và kèm điều kiện. Việc nhân bản hàng loạt để phát cho học sinh thay cho sách thật không nên được coi là thuộc phạm vi ngoại lệ.</p>
-        <div class="callout callout-warn">Báo cáo không đưa ra ý kiến pháp lý. Trước khi áp dụng, nhà trường hoặc Sở nên tham vấn bộ phận pháp chế về các ngoại lệ cụ thể và về nội dung thỏa thuận cấp phép.</div>
-        <p>Vì vậy, giải pháp được thiết kế theo nguyên tắc: <strong>chỉ luân chuyển các bản sách in hợp pháp, và không tạo bản sao nếu chưa có văn bản cho phép.</strong></p>
+        <p>Sách giáo khoa là tác phẩm được bảo hộ quyền tác giả. Theo Luật Sở hữu trí tuệ, việc sao chép và phân phối tác phẩm cần sự cho phép của chủ sở hữu quyền, trừ một số ngoại lệ có phạm vi hẹp và kèm điều kiện. Việc nhân bản hàng loạt để phát cho học sinh thay cho sách thật không nên được coi là thuộc phạm vi ngoại lệ.</p>
+        <div class="callout callout-warn">Báo cáo không đưa ra ý kiến pháp lý. Trước khi áp dụng, nhà trường hoặc Sở nên tham vấn bộ phận pháp chế.</div>
+        <p>Nguyên tắc thiết kế: <strong>chỉ luân chuyển các bản sách in hợp pháp, và không tạo bản sao nếu chưa có văn bản cho phép.</strong></p>
 
-        <h3>2.3. Các bên liên quan</h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Bên liên quan</th><th>Cần gì</th><th>Lo ngại</th></tr></thead>
-            <tbody>
-              <tr><td>Học sinh</td><td>Có nội dung để học và làm bài theo đúng tiến độ</td><td>Bị bỏ lại phía sau, ngại vì không có sách</td></tr>
-              <tr><td>Phụ huynh</td><td>Biết khi nào có sách, có cách học tạm không tốn tiền</td><td>Chi phí phát sinh, con bị chậm</td></tr>
-              <tr><td>Giáo viên, nhà trường</td><td>Dạy được ngay, số liệu rõ ràng để báo cáo</td><td>Thêm việc hành chính, rủi ro pháp lý</td></tr>
-              <tr><td>NXB, đơn vị phân phối</td><td>Biết chính xác nơi nào thiếu bao nhiêu, bảo vệ bản quyền</td><td>Giao sai chỗ, sách bị sao chép tràn lan</td></tr>
-              <tr><td>Sở, Phòng GD&amp;ĐT</td><td>Nắm tình hình toàn địa bàn, điều phối nhanh</td><td>Thiếu số liệu, phản ánh từ dư luận</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3>2.4. Tiêu chí đánh giá giải pháp</h3>
+        <h3>2.3. Tiêu chí đánh giá giải pháp</h3>
         <ol>
-          <li><strong>TC1. Liên tục học tập:</strong> học sinh tiếp cận được nội dung cần thiết, không gián đoạn chương trình.</li>
-          <li><strong>TC2. Hợp pháp:</strong> tuân thủ quy định về quyền tác giả và sở hữu trí tuệ.</li>
-          <li><strong>TC3. Chi phí thấp:</strong> hạn chế tối đa chi phí phát sinh cho học sinh và phụ huynh.</li>
-          <li><strong>TC4. Triển khai nhanh:</strong> áp dụng ngay tại trường, mở rộng được lên phường/xã và tỉnh.</li>
-          <li><strong>TC5. Tận dụng nguồn lực sẵn có:</strong> công nghệ, tài nguyên số, thư viện, cơ chế chia sẻ.</li>
-          <li><strong>TC6. Tạm thời:</strong> có điểm kết thúc rõ ràng khi sách chính thức được cung ứng đủ.</li>
+          <li><strong>TC1. Liên tục học tập:</strong> học sinh không gián đoạn chương trình.</li>
+          <li><strong>TC2. Hợp pháp:</strong> tuân thủ quy định về quyền tác giả.</li>
+          <li><strong>TC3. Chi phí thấp:</strong> phụ huynh không phải trả thêm.</li>
+          <li><strong>TC4. Triển khai nhanh:</strong> áp dụng ngay tại trường, mở rộng được.</li>
+          <li><strong>TC5. Tận dụng nguồn lực sẵn có:</strong> công nghệ, thư viện, cơ chế chia sẻ.</li>
+          <li><strong>TC6. Tạm thời:</strong> có điểm kết thúc rõ ràng.</li>
         </ol>
-      </section>
 
-      <section id="phuong-an">
-        <h2><span class="sec-num">3.</span>Các phương án đã cân nhắc</h2>
-        <p>Đối chiếu các phương án thường gặp với sáu tiêu chí:</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Phương án</th><th>TC1</th><th>TC2</th><th>TC3</th><th>TC4</th><th>TC5</th><th>TC6</th></tr></thead>
-            <tbody>
-              <tr><td>A. Phụ huynh tự photocopy</td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-bad">Không</span></td><td><span class="badge badge-warn">Một phần</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-bad">Không</span></td><td><span class="badge badge-warn">Một phần</span></td></tr>
-              <tr><td>B. Chờ sách chính thức</td><td><span class="badge badge-bad">Không</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-bad">Không</span></td><td><span class="badge badge-ok">Đạt</span></td></tr>
-              <tr><td>C. Chỉ dùng sách điện tử</td><td><span class="badge badge-warn">Một phần</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-warn">Một phần</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td></tr>
-              <tr><td>D. Chỉ xin cấp phép in tạm</td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-warn">Một phần</span></td><td><span class="badge badge-warn">Một phần</span></td><td><span class="badge badge-bad">Không</span></td><td><span class="badge badge-ok">Đạt</span></td></tr>
-              <tr><td><strong>E. Cầu Sách (kết hợp)</strong></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td><td><span class="badge badge-ok">Đạt</span></td></tr>
-            </tbody>
-          </table>
+        <h3 id="phuong-an">2.4. Các giải pháp đã triển khai và kết quả</h3>
+        <p>Mục này xem xét các biện pháp đã được dùng thật, trong nước và ở nước ngoài, rồi đối chiếu với BookBridge.</p>
+        <div class="rows">
+          <div>
+            <h4>2.4.1. In bổ sung và điều chuyển theo chỉ đạo của Bộ</h4>
+            <div>
+              <p><strong>Kết quả:</strong> Công văn 6128/BGDĐT-GDPT ngày 10/9/2026 yêu cầu các Sở rà soát đến từng cơ sở giáo dục và điều chuyển sách từ nơi dư đến nơi thiếu, hoàn thành trước ngày 15/9 <a class="ref" href="#n5">[5]</a>. Số sách thiếu giảm từ hơn 3,9 triệu bản (14/9) xuống hơn 776.000 bản (20/9), và được phát hành bổ sung đến hết ngày 24/9 <a class="ref" href="#n2">[2]</a>.</p>
+              <p><strong>Hạn chế:</strong> không đạt mốc 15/9. Đến 25/9, Cần Thơ vẫn còn 3.026 học sinh thiếu sách <a class="ref" href="#n3">[3]</a>. Phụ huynh không có kênh nào để biết khi nào sách về.</p>
+              <p><strong>So với BookBridge:</strong> cùng hướng điều chuyển. Điểm khác: nhà trường tự cập nhật số liệu theo từng đầu sách, trường thiếu và trường dư thấy nhau trực tiếp, phụ huynh xem được ngày dự kiến.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.2. Sách giáo khoa điện tử miễn phí</h4>
+            <div>
+              <p><strong>Kết quả:</strong> Nhà xuất bản Giáo dục Việt Nam cung cấp miễn phí sách điện tử từ lớp 1 đến lớp 12 tại <a href="https://taphuan.nxbgd.vn" target="_blank" rel="noopener">taphuan.nxbgd.vn</a> <a class="ref" href="#n7">[7]</a>. Hà Nội đưa sách điện tử lên ứng dụng iHanoi <a class="ref" href="#n1">[1]</a>. Chưa tìm thấy số liệu công bố về số học sinh thực sự học bằng bản điện tử (cần kiểm chứng).</p>
+              <p><strong>Hạn chế:</strong> “Không phải gia đình nào cũng có máy tính, máy tính bảng hoặc Internet ổn định” <a class="ref" href="#n1">[1]</a>. Học sinh nhỏ tuổi không nên học chủ yếu trên thiết bị điện tử.</p>
+              <p><strong>So với BookBridge:</strong> ứng dụng dẫn liên kết đến nguồn chính thức này, coi là biện pháp bổ trợ, không phải biện pháp chính.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.3. Thư viện cho mượn, dùng chung, sách cũ</h4>
+            <div>
+              <p><strong>Kết quả:</strong> Trường Tiểu học Võ Thị Sáu (Đắk Lắk) vận động học sinh chia sẻ bộ sách đã dùng năm trước, tập trung về thư viện cho các em chưa đủ sách mượn. Trường THCS Nguyễn Chơn (Đà Nẵng) thiếu khoảng 700 quyển lẻ và huy động được hơn 140 bộ sách cho học sinh khó khăn. Một số phân hiệu ở Huế có hai học sinh dùng chung một cuốn <a class="ref" href="#n1">[1]</a>.</p>
+              <p><strong>Hạn chế:</strong> mỗi trường tự xoay xở. Sách dư ở trường này không đến được trường khác đang thiếu.</p>
+              <p><strong>So với BookBridge:</strong> Tầng 1 lấy đúng các cách làm này làm chuẩn. Tầng 2 bổ sung xếp lượt mượn và điều phối giữa các trường.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.4. Giám sát giao sách công khai (Philippines)</h4>
+            <div>
+              <p><strong>Kết quả:</strong> chương trình Textbook Count, bắt đầu năm 2003, cho các tổ chức xã hội theo dõi việc giao sách đến trường. Các tổ chức có mặt tại 71% số lần giao, tình nguyện viên ghi nhận 95% lần giao không sai sót, giá sách giảm 40-50% <a class="ref" href="#n8">[8]</a>.</p>
+              <p><strong>Hạn chế:</strong> cần lực lượng tình nguyện lớn. Chương trình xử lý khâu giao nhận, không xử lý việc học trong lúc chờ sách.</p>
+              <p><strong>So với BookBridge:</strong> bước “nhà trường xác nhận đã nhận lô giao” là phiên bản gọn của cách làm này.</p>
+            </div>
+          </div>
+          <div>
+            <h4>2.4.5. Chỉ phát thêm sách (Kenya)</h4>
+            <div>
+              <p><strong>Kết quả:</strong> một thử nghiệm ngẫu nhiên ở nông thôn Kenya cho thấy phát sách không làm tăng điểm của học sinh trung bình. Chỉ nhóm học sinh vốn học khá được hưởng lợi <a class="ref" href="#n9">[9]</a>.</p>
+              <p><strong>So với BookBridge:</strong> có sách chưa đủ, cách tổ chức dạy và học cũng quan trọng. Vì vậy Tầng 1 có phiếu học tập và nhóm đôi bạn. Bối cảnh Kenya khác Việt Nam, nên chỉ dùng kết quả này để tham khảo.</p>
+            </div>
+          </div>
         </div>
-        <ul>
-          <li><strong>A</strong> giải quyết nhanh nhưng vi phạm quyền tác giả. Phụ huynh vẫn tốn tiền photo, và bản sao tiếp tục lưu hành sau khi sách đã về.</li>
-          <li><strong>B</strong> hợp pháp và không tốn tiền, nhưng học sinh bị gián đoạn, và đây chính là điều cần tránh.</li>
-          <li><strong>C</strong> hợp pháp nếu dùng nguồn chính thức, nhưng phụ thuộc thiết bị và Internet. Học sinh ở vùng khó khăn, nơi thường thiếu sách nhất, lại ít có điều kiện dùng sách điện tử nhất. Đọc lâu trên điện thoại cũng không tốt cho học sinh nhỏ tuổi.</li>
-          <li><strong>D</strong> hợp pháp và giữ được trải nghiệm sách giấy, nhưng cần thời gian đề nghị và thỏa thuận, cần kinh phí in. Nên dùng như lớp dự phòng, không nên là giải pháp duy nhất.</li>
-          <li><strong>E</strong> kết hợp điểm mạnh của B, C và D. Đồng thời, E bổ sung hai yếu tố còn thiếu: tổ chức lại cách dùng sách tại lớp và điều phối sách dư giữa các trường.</li>
-        </ul>
+        <p><strong>Nhận xét:</strong> BookBridge không phát minh biện pháp mới. Các biện pháp trên đã có kết quả, nhưng diễn ra rời rạc và thiếu thông tin cho nhau. BookBridge nối chúng lại bằng một nguồn số liệu chung mà nhà trường, đơn vị cung ứng và phụ huynh cùng xem được.</p>
       </section>
 
       <section id="giai-phap">
-        <h2><span class="sec-num">4.</span>Giải pháp đề xuất: Cầu Sách</h2>
-        <p>Cầu Sách gồm ba tầng. Mỗi tầng dùng được độc lập, nhưng hiệu quả nhất khi dùng cùng nhau. Tầng 1 áp dụng ngay trong ngày đầu tiên. Tầng 3 giúp giảm số học sinh cần đến tầng 1 và tầng 2.</p>
+        <h2><span class="sec-num">Chương 3.</span>Giải pháp đề xuất: BookBridge</h2>
 
-        <h3>Tầng 1. Tại lớp học (phi công nghệ, áp dụng ngay)</h3>
-        <div class="grid">
-          <div class="card tier">
-            <h4>Tủ sách lớp dùng chung</h4>
-            <p>Gom số sách lớp đang có vào một tủ hoặc giá tại lớp. Trong giờ học, học sinh dùng chung, mỗi bàn một cuốn. Sách để lại lớp, không mang về. Mỗi cuốn phục vụ được 2–3 em thay vì 1 em.</p>
-            <p class="small muted">Chi phí: 0 đồng. Người thực hiện: giáo viên chủ nhiệm.</p>
+        <h3>3.1. Tổng quan</h3>
+        <p>BookBridge gồm hai tầng. Tầng 1 áp dụng ngay trong ngày đầu tiên. Tầng 2 giúp giảm số học sinh cần đến Tầng 1.</p>
+
+        <h3>3.2. Tầng 1: tại lớp học</h3>
+        <p>Phi công nghệ, áp dụng ngay.</p>
+        <div class="rows">
+          <div>
+            <h4>3.2.1. Tủ sách lớp dùng chung</h4>
+            <div><p>Gom số sách lớp đang có vào một tủ tại lớp. Trong giờ học, mỗi bàn dùng chung một cuốn. Sách để lại lớp, không mang về.</p>
+            <p class="small muted">Chi phí: 0 đồng. Người thực hiện: giáo viên chủ nhiệm.</p></div>
           </div>
-          <div class="card tier">
-            <h4>Nhóm học đôi bạn</h4>
-            <p>Ghép học sinh đã có sách với học sinh chưa có sách, ưu tiên các em ở gần nhà nhau, để cùng làm bài tập về nhà. Hai bên cùng có lợi: em có sách được củng cố kiến thức khi giải thích cho bạn.</p>
-            <p class="small muted">Chi phí: 0 đồng. Người thực hiện: giáo viên chủ nhiệm, ban đại diện cha mẹ học sinh.</p>
+          <div>
+            <h4>3.2.2. Nhóm học đôi bạn</h4>
+            <div><p>Ghép học sinh đã có sách với học sinh chưa có sách, ưu tiên các em ở gần nhà nhau, để cùng làm bài tập về nhà.</p>
+            <p class="small muted">Chi phí: 0 đồng. Người thực hiện: giáo viên chủ nhiệm, ban đại diện cha mẹ học sinh.</p></div>
           </div>
-          <div class="card tier">
-            <h4>Phiếu học tập giáo viên tự soạn</h4>
-            <p>Giáo viên soạn phiếu học tập bám theo mục tiêu bài học trong chương trình giáo dục phổ thông: câu hỏi, bài tập, tóm tắt ý chính bằng lời của giáo viên. Phiếu không chép lại nguyên văn sách. Tổ bộ môn soạn một lần, dùng chung cho cả khối.</p>
-            <p class="small muted">Chi phí: in phiếu vài trang mỗi tuần, do nhà trường chi.</p>
+          <div>
+            <h4>3.2.3. Phiếu học tập giáo viên tự soạn</h4>
+            <div><p>Giáo viên soạn phiếu bám theo mục tiêu bài học trong chương trình: câu hỏi, bài tập, tóm tắt ý chính bằng lời của giáo viên. Phiếu không chép lại nguyên văn sách.</p>
+            <p class="small muted">Chi phí: in phiếu vài trang mỗi tuần, do nhà trường chi.</p></div>
           </div>
         </div>
 
-        <h3>Tầng 2. Xin cấp phép in tạm (phi công nghệ, dự phòng)</h3>
-        <p>Dùng khi Tầng 1 và Tầng 3 vẫn không đủ, ví dụ khi một đầu sách thiếu trên diện rộng và chậm hơn 2–3 tuần.</p>
-        <ol class="steps">
-          <li><strong>Tổng hợp nhu cầu.</strong> Sở hoặc Phòng GD&amp;ĐT lấy số liệu từ Cầu Sách: đầu sách nào, bao nhiêu học sinh, trong bao lâu.</li>
-          <li><strong>Gửi đề nghị bằng văn bản</strong> tới nhà xuất bản hoặc chủ sở hữu quyền, xin phép in tạm một phạm vi giới hạn, ví dụ các bài học của 3–4 tuần đầu.</li>
-          <li><strong>Thỏa thuận điều kiện:</strong> phạm vi nội dung, số lượng bản in, thời hạn sử dụng, ghi rõ “Bản in tạm, được cấp phép” trên bản in, phương án thu hồi, và chi phí nếu có.</li>
-          <li><strong>In, phát và thu hồi.</strong> Nhà trường phát bản in cho học sinh chưa có sách. Khi sách chính thức về, thu hồi hoặc tái chế bản in theo thỏa thuận.</li>
-        </ol>
-        <p>Điểm khác biệt so với tự photocopy: <strong>có văn bản cho phép của chủ sở hữu quyền</strong>, có kiểm soát số lượng, và có điểm kết thúc.</p>
+        <h3>3.3. Tầng 2: nền tảng điều phối</h3>
+        <p>Một ứng dụng web kết nối nhà trường, phụ huynh và đơn vị cung ứng. Ứng dụng không chứa nội dung sách, chỉ quản lý <em>số lượng</em> và <em>di chuyển</em> của các bản sách in hợp pháp. Chương 4 trình bày chi tiết.</p>
 
-        <h3>Tầng 3. Nền tảng điều phối Cầu Sách (công nghệ)</h3>
-        <p>Đây là một ứng dụng web đơn giản, kết nối ba nhóm người dùng. Ứng dụng không chứa nội dung sách. Ứng dụng chỉ quản lý <em>số lượng</em> và <em>di chuyển</em> của các bản sách in hợp pháp.</p>
-        <div class="flow">
-          <div class="card">
-            <h4><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>Nhà trường</h4>
-            <ul>
-              <li>Cập nhật nhu cầu và số sách hiện có</li>
-              <li>Xác nhận nhận lô giao</li>
-              <li>Xin hoặc nhường sách dư với trường khác</li>
-              <li>Duyệt yêu cầu mượn luân phiên</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h4><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Phụ huynh / Học sinh</h4>
-            <ul>
-              <li>Xem sách của trường đã về chưa, dự kiến ngày nào</li>
-              <li>Mở bản điện tử từ nguồn chính thức</li>
-              <li>Đăng ký mượn sách luân phiên</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h4><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>NXB / Phân phối</h4>
-            <ul>
-              <li>Xem nhu cầu còn thiếu theo trường và đầu sách</li>
-              <li>Thấy phần có thể bù bằng sách dư của trường khác</li>
-              <li>Lên lịch và cập nhật trạng thái lô giao</li>
-            </ul>
-          </div>
-        </div>
-        <p>Bốn chức năng chính:</p>
-        <ol>
-          <li><strong>Báo thiếu và giao sách.</strong> Trường nhập nhu cầu và số sách hiện có. Đơn vị cung ứng thấy ngay số còn thiếu, đã trừ phần đang giao, và lên lịch giao. Trường xác nhận khi nhận sách, số liệu tự cập nhật.</li>
-          <li><strong>Điều phối sách dư giữa các trường.</strong> Hệ thống tự ghép trường dư với trường thiếu cùng đầu sách, ưu tiên trường cùng khu vực. Trường thiếu gửi đề nghị, trường dư đồng ý, trường nhận xác nhận. Không cần in thêm cuốn nào.</li>
-          <li><strong>Tủ sách mượn luân phiên.</strong> Nhà trường dành một phần sách cho thư viện. Phụ huynh đăng ký mượn qua ứng dụng, nhà trường xếp lượt, ví dụ mượn về nhà 2 ngày rồi trả.</li>
-          <li><strong>Trạng thái và nguồn điện tử chính thức.</strong> Phụ huynh biết sách đã về chưa và khi nào về. Ứng dụng dẫn liên kết đến nền tảng sách điện tử chính thức của nhà xuất bản (nếu có), không lưu bản sao.</li>
-        </ol>
-        <div class="callout"><strong>Về phân quyền khi triển khai thật:</strong> nhà trường và NXB/phân phối đăng nhập bằng tài khoản và mật khẩu. Phụ huynh và học sinh không cần tài khoản, chỉ xem trạng thái sách của trường mình, không thấy số liệu chi tiết. Bản demo hiện cho chọn vai trò trực tiếp để dễ trải nghiệm.</div>
+        <h3>3.4. Phương án dự phòng: in tạm có cấp phép</h3>
+        <p>Nếu một đầu sách thiếu trên diện rộng và kéo dài, Sở hoặc nhà trường có thể đề nghị nhà xuất bản cho phép in tạm một phạm vi giới hạn, ví dụ các bài học của 3-4 tuần đầu. Điểm khác với tự photocopy: có văn bản cho phép của chủ sở hữu quyền, có kiểm soát số lượng và có thu hồi. Phương án này chậm và tốn kinh phí, nên không phải là một tầng của giải pháp.</p>
       </section>
 
-      <section id="danh-gia">
-        <h2><span class="sec-num">5.</span>Phân tích giải pháp</h2>
+      <section id="ung-dung">
+        <h2><span class="sec-num">Chương 4.</span>Ứng dụng BookBridge</h2>
 
-        <h3>5.1. Đối chiếu với tiêu chí</h3>
+        <h3>4.1. Ứng dụng giải quyết vấn đề gì</h3>
+        <p class="caption" id="bang-4-1">Bảng 4.1: Vấn đề thực tế và cách ứng dụng giải quyết</p>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Tiêu chí</th><th>Cầu Sách đáp ứng thế nào</th></tr></thead>
+            <thead><tr><th>Vấn đề thực tế</th><th>Ứng dụng giải quyết thế nào</th></tr></thead>
             <tbody>
-              <tr><td>TC1. Liên tục học tập</td><td>Ngày đầu tiên: tủ sách lớp và phiếu học tập. Sau vài ngày: sách dư được luân chuyển, sách điện tử cho gia đình có thiết bị. Nếu vẫn thiếu kéo dài: bản in tạm được cấp phép.</td></tr>
-              <tr><td>TC2. Hợp pháp</td><td>Không tạo bản sao. Chỉ luân chuyển và cho mượn bản in hợp pháp. Chỉ in khi có văn bản cho phép. Sách điện tử chỉ được dẫn liên kết.</td></tr>
-              <tr><td>TC3. Chi phí thấp</td><td>Phụ huynh không mất phí. Chi phí in phiếu học tập và bản in tạm (nếu có) do nhà trường hoặc Sở cân đối. Ứng dụng host miễn phí trên GitHub Pages.</td></tr>
-              <tr><td>TC4. Triển khai nhanh</td><td>Tầng 1 không cần chuẩn bị gì. Ứng dụng không cần cài đặt, mở bằng trình duyệt điện thoại. Mở rộng từ một trường lên phường/xã, tỉnh bằng cách chạy máy chủ dùng chung.</td></tr>
-              <tr><td>TC5. Tận dụng nguồn lực</td><td>Dùng thư viện trường, sách dư sẵn có, nguồn điện tử chính thức, mạng lưới giáo viên và ban đại diện cha mẹ học sinh.</td></tr>
-              <tr><td>TC6. Tạm thời</td><td>Có điều kiện kết thúc rõ ràng (mục 5.5).</td></tr>
+              <tr><td>Không ai thấy trường nào thiếu đầu sách nào. Số tổng hợp báo đủ trong khi từng nơi vẫn thiếu <a class="ref" href="#n3">[3]</a>.</td><td>Mỗi trường nhập ba con số cho mỗi đầu sách: cần, đang có, để trong tủ mượn. Ứng dụng tính số thiếu, số đang về và số dư của từng trường.</td></tr>
+              <tr><td>Sách dư ở trường này không đến được trường bên cạnh đang thiếu.</td><td>Ứng dụng tự ghép trường dư với trường thiếu cùng đầu sách, ưu tiên cùng khu vực. Trường thiếu gửi đề nghị, trường dư đồng ý, trường nhận xác nhận.</td></tr>
+              <tr><td>Đơn vị cung ứng không biết giao bao nhiêu, cho ai trước.</td><td>Danh sách nhu cầu xếp theo số còn thiếu, đã trừ sách đang giao và phần bù được bằng sách dư. Đơn vị lên lịch giao ngay trên danh sách.</td></tr>
+              <tr><td>Phụ huynh không biết khi nào có sách, phải tự đi tìm mua <a class="ref" href="#n3">[3]</a>.</td><td>Phụ huynh xem đầu sách nào đã đủ, đầu sách nào đang về và ngày dự kiến. Trong lúc chờ: đăng ký mượn luân phiên, hoặc mở sách điện tử chính thức.</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h3>5.2. Chi phí</h3>
-        <ul>
-          <li><strong>Phụ huynh, học sinh:</strong> 0 đồng.</li>
-          <li><strong>Nhà trường:</strong> thời gian nhập số liệu, khoảng 15 phút cho mỗi khối. In phiếu học tập vài trang mỗi tuần.</li>
-          <li><strong>Công nghệ:</strong> bản tĩnh chạy miễn phí trên GitHub Pages. Bản có máy chủ chỉ cần Python, không cần cài thư viện, chạy được trên máy tính sẵn có của Phòng/Sở.</li>
-          <li><strong>In tạm (nếu cần):</strong> theo thỏa thuận với nhà xuất bản. Chi phí nằm trong ngân sách của nhà trường hoặc Sở, không thu của phụ huynh.</li>
-        </ul>
+        <h3>4.2. Người dùng và chức năng</h3>
+        <p class="caption" id="bang-4-2">Bảng 4.2: Người dùng và chức năng</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Người dùng</th><th>Làm được gì</th></tr></thead>
+            <tbody>
+              <tr><td>Nhà trường</td><td>Cập nhật nhu cầu và số sách hiện có. Xác nhận nhận lô giao. Xin hoặc nhường sách dư với trường khác. Duyệt yêu cầu mượn luân phiên.</td></tr>
+              <tr><td>Phụ huynh, học sinh</td><td>Xem sách của trường đã về chưa và ngày dự kiến. Mở sách điện tử từ nguồn chính thức. Đăng ký mượn sách luân phiên.</td></tr>
+              <tr><td>Nhà xuất bản, đơn vị phân phối</td><td>Xem nhu cầu còn thiếu theo trường và đầu sách. Lên lịch và cập nhật trạng thái lô giao.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Khi triển khai thật, nhà trường và đơn vị cung ứng đăng nhập bằng tài khoản. Phụ huynh không cần tài khoản, chỉ xem trạng thái sách của trường mình. Bản demo cho chọn vai trò trực tiếp.</p>
 
-        <h3>5.3. Khả năng mở rộng</h3>
-        <ul>
-          <li><strong>Một trường:</strong> dùng bản tĩnh. Dữ liệu lưu trên máy của thư viện.</li>
-          <li><strong>Phường/xã, tỉnh:</strong> chạy <code>server.py</code> trên một máy chủ dùng chung. Tất cả trường và đơn vị cung ứng dùng chung dữ liệu, và chức năng điều phối sách dư phát huy hiệu quả.</li>
-          <li><strong>Không cần mạng:</strong> Tầng 1 và Tầng 2 vẫn chạy được. Nhà trường có thể in bảng tổng hợp trên giấy.</li>
-        </ul>
+        <h3>4.3. Ví dụ một lượt điều phối</h3>
+        <p class="small muted">Số liệu trong ví dụ lấy từ dữ liệu mẫu của bản demo, không phải số liệu thật.</p>
+        <ol class="steps">
+          <li><strong>Trường nhập số liệu.</strong> Trường Tiểu học Ánh Dương cần 150 cuốn Toán 1, đang có 110. Trường Tiểu học Sao Mai cùng khu vực cần 180, đang có 205.</li>
+          <li><strong>Ứng dụng ghép cặp.</strong> Ánh Dương thấy gợi ý: Sao Mai đang dư 25 cuốn. Trường bấm “Gửi đề nghị”.</li>
+          <li><strong>Hai trường thỏa thuận.</strong> Sao Mai bấm “Đồng ý” và chuyển sách. Ánh Dương bấm “Xác nhận đã nhận”. Số sách của hai trường tự cập nhật.</li>
+          <li><strong>Phần còn lại mới cần giao thêm.</strong> Ánh Dương còn thiếu 15 cuốn. Đơn vị cung ứng thấy đúng con số này và lên lịch giao. Phụ huynh thấy ngày dự kiến.</li>
+        </ol>
 
-        <h3>5.4. Rủi ro và cách giảm thiểu</h3>
+        <h3>4.4. Bản demo và cách thử</h3>
+        <p>Bản demo có 12 trường ở 3 khu vực, 14 đầu sách và 3 đơn vị cung ứng. Tên trường và đơn vị là giả định. Ba tình huống để thử:</p>
+        <ul>
+          <li><strong>Trường thiếu tìm trường dư:</strong> mở <a href="app.html#school/s2/transfer">tab điều phối của Trường Tiểu học Ánh Dương</a> rồi bấm “Gửi đề nghị”.</li>
+          <li><strong>Phụ huynh xem khi nào sách về:</strong> mở <a href="app.html#parent/s2">trang phụ huynh của cùng trường</a>.</li>
+          <li><strong>Đơn vị cung ứng biết giao ở đâu:</strong> mở <a href="app.html#supplier/d1/demand">danh sách nhu cầu</a> rồi bấm “Lên lịch giao”.</li>
+        </ul>
+        <p>Trang <a href="app.html#about">Giới thiệu trong ứng dụng</a> có số liệu toàn vùng tính từ dữ liệu hiện tại.</p>
+
+        <h3>4.5. Công nghệ</h3>
+        <p>Ứng dụng viết bằng HTML, CSS và JavaScript thuần, chạy miễn phí trên GitHub Pages, dữ liệu lưu trên trình duyệt. Để nhiều trường dùng chung dữ liệu, chạy kèm máy chủ <code>server.py</code> (chỉ cần Python, không cần cài thư viện).</p>
+      </section>
+
+      <section id="danh-gia">
+        <h2><span class="sec-num">Chương 5.</span>Đánh giá và kế hoạch triển khai</h2>
+
+        <h3>5.1. Đối chiếu với tiêu chí</h3>
+        <p class="caption" id="bang-5-1">Bảng 5.1: Đối chiếu BookBridge với sáu tiêu chí</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tiêu chí</th><th>BookBridge đáp ứng thế nào</th></tr></thead>
+            <tbody>
+              <tr><td>TC1. Liên tục học tập</td><td>Ngày đầu tiên: tủ sách lớp và phiếu học tập. Sau vài ngày: sách dư được luân chuyển, sách điện tử cho gia đình có thiết bị.</td></tr>
+              <tr><td>TC2. Hợp pháp</td><td>Không tạo bản sao. Chỉ luân chuyển và cho mượn bản in hợp pháp. Sách điện tử chỉ được dẫn liên kết.</td></tr>
+              <tr><td>TC3. Chi phí thấp</td><td>Phụ huynh không mất phí. Nhà trường chi tiền in phiếu học tập. Ứng dụng chạy miễn phí trên GitHub Pages.</td></tr>
+              <tr><td>TC4. Triển khai nhanh</td><td>Tầng 1 không cần chuẩn bị gì. Ứng dụng mở bằng trình duyệt điện thoại, không cần cài đặt.</td></tr>
+              <tr><td>TC5. Tận dụng nguồn lực</td><td>Dùng thư viện trường, sách dư sẵn có, nguồn điện tử chính thức, mạng lưới giáo viên và cha mẹ học sinh.</td></tr>
+              <tr><td>TC6. Tạm thời</td><td>Có điều kiện kết thúc rõ ràng (mục 5.3).</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>5.2. Rủi ro và cách giảm thiểu</h3>
+        <p class="caption" id="bang-5-2">Bảng 5.2: Rủi ro và cách giảm thiểu</p>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Rủi ro</th><th>Giảm thiểu</th></tr></thead>
             <tbody>
-              <tr><td>Nhà trường nhập số liệu sai hoặc chậm</td><td>Chỉ cần 3 con số cho mỗi đầu sách. Phòng GD&amp;ĐT nhắc các trường chưa cập nhật. Xác nhận nhận hàng sẽ tự cập nhật số liệu.</td></tr>
-              <tr><td>Sách mượn bị hư hỏng hoặc thất lạc</td><td>Mượn ngắn ngày, ghi nhận theo tên và lớp. Giáo viên chủ nhiệm nhắc trả. Sách luân chuyển được ghi nhãn trường gốc.</td></tr>
-              <tr><td>Gia đình không có thiết bị hoặc Internet</td><td>Tầng 1 không cần công nghệ. Giáo viên chủ nhiệm cập nhật tình trạng sách cho phụ huynh qua họp lớp hoặc giấy báo.</td></tr>
-              <tr><td>Nhà xuất bản không đồng ý cấp phép in tạm</td><td>Tầng 2 chỉ là dự phòng. Tầng 1 và Tầng 3 vẫn hoạt động. Số liệu từ Cầu Sách giúp đề nghị cụ thể và thuyết phục hơn.</td></tr>
-              <tr><td>Lộ dữ liệu cá nhân học sinh</td><td>Chỉ thu tên và lớp. Khi triển khai thật: bật đăng nhập cho nhà trường, xóa dữ liệu mượn khi kết thúc giai đoạn chuyển tiếp.</td></tr>
+              <tr><td>Nhà trường nhập số liệu sai hoặc chậm</td><td>Chỉ cần 3 con số cho mỗi đầu sách. Xác nhận nhận hàng sẽ tự cập nhật số liệu.</td></tr>
+              <tr><td>Sách mượn bị hư hỏng hoặc thất lạc</td><td>Mượn ngắn ngày, ghi nhận theo tên và lớp. Sách luân chuyển được ghi nhãn trường gốc.</td></tr>
+              <tr><td>Gia đình không có thiết bị hoặc Internet</td><td>Tầng 1 không cần công nghệ. Giáo viên chủ nhiệm báo tình trạng sách qua họp lớp hoặc giấy báo.</td></tr>
+              <tr><td>Lộ dữ liệu cá nhân học sinh</td><td>Chỉ thu tên và lớp. Xóa dữ liệu mượn khi kết thúc giai đoạn chuyển tiếp.</td></tr>
             </tbody>
           </table>
         </div>
 
-        <h3>5.5. Điều kiện kết thúc</h3>
-        <p>Cầu Sách là giải pháp <strong>chuyển tiếp</strong> và kết thúc khi:</p>
+        <h3>5.3. Điều kiện kết thúc</h3>
+        <p>BookBridge là giải pháp <strong>chuyển tiếp</strong> và kết thúc khi tất cả đầu sách của trường có “Còn thiếu = 0” trên ứng dụng. Khi đó:</p>
         <ul>
-          <li>Tất cả đầu sách của trường có “Còn thiếu = 0” trên ứng dụng. Khi đó: đóng chức năng mượn luân phiên, thu sách luân phiên về thư viện, trả sách luân chuyển về trường gốc nếu hai bên đã thỏa thuận như vậy.</li>
-          <li>Bản in tạm (nếu có) được thu hồi hoặc tái chế theo đúng thỏa thuận với nhà xuất bản.</li>
-          <li>Dữ liệu mượn của học sinh được xóa. Số liệu tổng hợp (không có thông tin cá nhân) có thể giữ lại để dự báo nhu cầu cho năm học sau.</li>
+          <li>Đóng chức năng mượn luân phiên, thu sách về thư viện, trả sách luân chuyển về trường gốc nếu hai bên đã thỏa thuận.</li>
+          <li>Xóa dữ liệu mượn của học sinh. Số liệu tổng hợp, không có thông tin cá nhân, có thể giữ lại để dự báo nhu cầu năm sau.</li>
         </ul>
-      </section>
 
-      <section id="trien-khai">
-        <h2><span class="sec-num">6.</span>Kế hoạch triển khai</h2>
+        <h3 id="trien-khai">5.4. Kế hoạch triển khai</h3>
+        <p>Kế hoạch dưới đây dành cho đầu năm học 2027-2028. Với thiếu sách phát sinh giữa năm, nhà trường bắt đầu từ bước “Tuần 1”.</p>
         <ol class="timeline">
-          <li><strong>Tuần 0 (trước khai giảng)</strong>Nhà trường nhập nhu cầu và số sách hiện có lên Cầu Sách. Giáo viên chủ nhiệm lập tủ sách lớp. Tổ bộ môn phân công soạn phiếu học tập cho 2 tuần đầu.</li>
-          <li><strong>Tuần 1</strong>Ghép nhóm đôi bạn. Hệ thống gợi ý luân chuyển sách dư, các trường gửi và duyệt đề nghị. Thư viện mở tủ sách mượn luân phiên. Phòng/Sở xem tổng hợp và quyết định có cần đề nghị cấp phép in tạm hay không.</li>
-          <li><strong>Tuần 2–4</strong>Đơn vị cung ứng giao sách theo lịch trên ứng dụng. Nhà trường xác nhận khi nhận. In và phát bản in tạm nếu được cấp phép.</li>
-          <li><strong>Khi sách về đủ</strong>Kích hoạt điều kiện kết thúc (mục 5.5). Tổng kết số liệu để dự báo nhu cầu cho năm học sau.</li>
+          <li><strong>Tuần 0 (trước khai giảng)</strong>Nhà trường nhập nhu cầu và số sách hiện có. Giáo viên chủ nhiệm lập tủ sách lớp. Tổ bộ môn soạn phiếu học tập cho 2 tuần đầu.</li>
+          <li><strong>Tuần 1</strong>Ghép nhóm đôi bạn. Các trường gửi và duyệt đề nghị luân chuyển sách dư. Thư viện mở tủ sách mượn luân phiên.</li>
+          <li><strong>Tuần 2-4</strong>Đơn vị cung ứng giao sách theo lịch trên ứng dụng. Nhà trường xác nhận khi nhận.</li>
+          <li><strong>Khi sách về đủ</strong>Kích hoạt điều kiện kết thúc (mục 5.3). Tổng kết số liệu để dự báo nhu cầu năm sau.</li>
         </ol>
       </section>
 
       <section id="ket-luan">
-        <h2><span class="sec-num">7.</span>Kết luận</h2>
-        <p>Cầu Sách không cố thay thế sách giáo khoa. Mục tiêu là <strong>dùng hiệu quả hơn những cuốn sách hợp pháp đã có</strong> và <strong>giữ nhịp học</strong> cho đến khi sách chính thức về đủ. Giải pháp kết hợp các biện pháp phi công nghệ, áp dụng ngay tại lớp, với một nền tảng điều phối nhỏ gọn. Nhờ vậy, giải pháp đáp ứng cùng lúc cả sáu tiêu chí: liên tục học tập, hợp pháp, chi phí thấp, triển khai nhanh, tận dụng nguồn lực sẵn có, và có điểm kết thúc rõ ràng.</p>
-        <p><a class="btn btn-primary" href="app.html">Dùng thử ứng dụng Cầu Sách</a></p>
+        <h2><span class="sec-num">Chương 6.</span>Kết luận</h2>
+        <p>BookBridge không cố thay thế sách giáo khoa. Mục tiêu là <strong>dùng hiệu quả hơn những cuốn sách hợp pháp đã có</strong> và <strong>giữ nhịp học</strong> cho đến khi sách chính thức về đủ. Thực tế tháng 9/2026 cho thấy các biện pháp riêng lẻ đều có tác dụng, nhưng thiếu thông tin chung. BookBridge bổ sung đúng phần đó, và sẵn sàng cho thiếu sách phát sinh trong năm cũng như cho đầu năm học 2027-2028.</p>
+        <p><a class="btn btn-primary" href="app.html">Dùng thử ứng dụng BookBridge</a></p>
+      </section>
+
+      <section id="nguon">
+        <h2>Tài liệu tham khảo</h2>
+        <ol class="sources small">
+          <li id="n1">“Mở rộng cách tiếp cận sách giáo khoa cho học sinh,” <em>Giáo dục và Thời đại</em>, 16/9/2026. [Trực tuyến]. Địa chỉ: <a href="https://giaoducthoidai.vn/mo-rong-cach-tiep-can-sach-giao-khoa-cho-hoc-sinh-post792846.html" target="_blank" rel="noopener">giaoducthoidai.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n2">“Bộ GD-ĐT: Đã bổ sung đủ 776.259 bản sách giáo khoa còn thiếu, sẽ kiểm điểm từng người liên quan,” <em>Tuổi Trẻ</em>, 24/9/2026. [Trực tuyến]. Địa chỉ: <a href="https://tuoitre.vn/bo-gd-dt-da-bo-sung-du-776259-ban-sach-giao-khoa-con-thieu-se-kiem-diem-tung-nguoi-lien-quan-100260924210451002.htm" target="_blank" rel="noopener">tuoitre.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n3">C. X. Lương, “Hết tháng 9, nhiều học sinh và giáo viên vẫn chưa có đủ sách giáo khoa,” <em>Dân trí</em>, 30/9/2026. [Trực tuyến]. Địa chỉ: <a href="https://dantri.com.vn/giao-duc/het-thang-9-nhieu-hoc-sinh-va-giao-vien-van-chua-co-du-sach-giao-khoa-20260930164723437.htm" target="_blank" rel="noopener">dantri.com.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n4">“Thiếu sách giáo khoa: Cần thay đổi cách đặt hàng và phân phối sách,” <em>Tuổi Trẻ</em>, 13/9/2026. [Trực tuyến]. Địa chỉ: <a href="https://tuoitre.vn/thieu-sach-giao-khoa-can-thay-doi-cach-dat-hang-va-phan-phoi-sach-100260913135152345.htm" target="_blank" rel="noopener">tuoitre.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n5">“Yêu cầu hoàn thành cung ứng sách giáo khoa còn thiếu cho học sinh trước 15/9/2026” (về Công văn 6128/BGDĐT-GDPT), <em>LuatVietnam</em>, 2026. [Trực tuyến]. Địa chỉ: <a href="https://luatvietnam.vn/tin-van-ban-moi/yeu-cau-hoan-thanh-cung-ung-sach-giao-khoa-con-thieu-cho-hoc-sinh-truoc-15-9-2026-186-112388-article.html" target="_blank" rel="noopener">luatvietnam.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n6">“Bộ Giáo dục và Đào tạo nêu nguyên nhân thiếu sách giáo khoa, khẳng định không để lặp lại trong những năm học sau,” <em>Nhân Dân</em>, 15/9/2026. [Trực tuyến]. Địa chỉ: <a href="https://nhandan.vn/bo-giao-duc-va-dao-tao-neu-nguyen-nhan-thieu-sach-giao-khoa-khang-dinh-khong-de-lap-lai-trong-nhung-nam-hoc-sau-post988632.html" target="_blank" rel="noopener">nhandan.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n7">“Nhà xuất bản Giáo Dục Việt Nam cung cấp sách giáo khoa điện tử miễn phí,” <em>Tuổi Trẻ</em>, 24/5/2025. [Trực tuyến]. Địa chỉ: <a href="https://tuoitre.vn/nxb-giao-duc-viet-nam-cung-cap-sach-giao-khoa-dien-tu-mien-phi-20250524114756652.htm" target="_blank" rel="noopener">tuoitre.vn</a>. Truy cập: 1/10/2026.</li>
+          <li id="n8">G-Watch, “Delivering educational textbooks to schools in the Philippines: Textbook Count 1-2-3.” [Trực tuyến]. Địa chỉ: <a href="https://www.g-watch.org/news-release/delivering-educational-textbooks-schools-philippines-textbook-count-1-2-3" target="_blank" rel="noopener">g-watch.org</a>. Truy cập: 1/10/2026.</li>
+          <li id="n9">P. Glewwe, M. Kremer, và S. Moulin, “Many children left behind? Textbooks and test scores in Kenya,” <em>American Economic Journal: Applied Economics</em>, tập 1, số 1, tr. 112-135, 2009. <a href="https://www.aeaweb.org/articles?id=10.1257%2Fapp.1.1.112" target="_blank" rel="noopener">doi:10.1257/app.1.1.112</a>.</li>
+        </ol>
       </section>
     </main>
   </div>
@@ -294,7 +376,16 @@
   <footer class="site-footer">
     <div class="container small muted">
       <p>Dữ liệu trong ứng dụng demo là dữ liệu mẫu: tên trường và đơn vị là giả định. Nội dung pháp lý trong báo cáo chỉ để tham khảo, không thay thế tư vấn pháp lý.</p>
+      <p>Mã nguồn: <a href="https://github.com/ngth1010v/Supplying-textbook-solution" target="_blank" rel="noopener">github.com/ngth1010v/Supplying-textbook-solution</a></p>
     </div>
   </footer>
+  <script>
+    // Highlight the current chapter in the table of contents.
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const spy = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) tocLinks.forEach((a) => (a.hash === '#' + e.target.id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    }), { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('main section[id]').forEach((s) => spy.observe(s));
+  </script>
 </body>
 </html>

@@ -1,15 +1,15 @@
-// Cầu Sách web app. Runs in two modes, picked automatically at load:
+// BookBridge web app. Runs in two modes, picked automatically at load:
 //  - "api":   served by server.py -> data in SQLite via /api/*
 //  - "local": static hosting (GitHub Pages) -> data in localStorage, seeded from seed.json
 // Both modes expose the same store interface: { mode, state, add(coll, row), update(coll, id, patch) }.
 
-const EBOOK_URL = 'https://hanhtrangso.nxbgd.vn/'; // example official source; verify it matches the textbook series in use
-const LOCAL_KEY = 'causach-state-v1';
-const MY_LOANS_KEY = 'causach-my-loans';
+const EBOOK_URL = 'https://taphuan.nxbgd.vn/'; // official free e-textbooks of NXB Giao duc Viet Nam; verify it matches the textbook series in use
+const LOCAL_KEY = 'bookbridge-state-v2'; // bump when seed.json changes shape or content
+const MY_LOANS_KEY = 'bookbridge-my-loans';
 
 const $main = document.getElementById('main');
 let store;
-let lastView = '';
+let lastView = null;
 
 // ---------- helpers ----------
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -17,7 +17,7 @@ const S = () => store.state;
 const find = (coll, id) => S()[coll].find((x) => x.id === id) || { name: '(không rõ)' };
 const title = (id) => find('titles', id).name;
 const schoolName = (id) => find('schools', id).name;
-const fmtDate = (iso) => (iso ? new Date(iso + 'T00:00:00').toLocaleDateString('vi-VN') : '—');
+const fmtDate = (iso) => (iso ? new Date(iso + 'T00:00:00').toLocaleDateString('vi-VN') : '-');
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const total = (rows, key) => rows.reduce((t, r) => t + r[key], 0);
 
@@ -95,16 +95,17 @@ function homeView() {
   const schoolOptions = S().schools.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join('');
   const supplierOptions = S().suppliers.map((s) => `<option value="${s.id}">${esc(s.name)}</option>`).join('');
   const card = (role, iconName, heading, text, options, label) => `
-    <form class="card role-card" data-form="enter" data-role="${role}">
-      ${icon(iconName)}
-      <h2 class="h3">${heading}</h2>
-      <p>${text}</p>
-      <div class="field"><label for="enter-${role}">${label}</label><select id="enter-${role}" name="id">${options}</select></div>
-      <button class="btn btn-primary" type="submit">Vào</button>
+    <form class="role-card" data-form="enter" data-role="${role}">
+      <div><h2 class="h3">${icon(iconName)}${heading}</h2><p>${text}</p></div>
+      <div class="role-enter">
+        <div class="field"><label for="enter-${role}">${label}</label><select id="enter-${role}" name="id">${options}</select></div>
+        <button class="btn btn-primary" type="submit">Vào</button>
+      </div>
     </form>`;
   return `
     <h1>Chọn vai trò</h1>
-    <p class="muted">Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu. Ứng dụng không lưu và không phát tán nội dung sách.</p>
+    <p class="muted">Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu. Ứng dụng không lưu và không phát tán nội dung sách.
+      <a href="#about">Ứng dụng này giải quyết vấn đề gì?</a></p>
     <div class="role-cards">
       ${card('school', 'school', 'Nhà trường', 'Cập nhật nhu cầu và số sách hiện có, nhận lô giao, xin sách dư từ trường khác, quản lý tủ sách mượn luân phiên.', schoolOptions, 'Trường của bạn')}
       ${card('parent', 'users', 'Phụ huynh / Học sinh', 'Xem sách của trường đã về chưa, đọc bản điện tử từ nguồn chính thức, đăng ký mượn sách luân phiên.', schoolOptions, 'Trường của con')}
@@ -116,6 +117,59 @@ function homeView() {
     </div>
     ${store.mode === 'local' ? `<p class="small muted">Dữ liệu demo lưu trên trình duyệt này.
       <button class="btn btn-sm" data-action="reset">Khôi phục dữ liệu mẫu</button></p>` : ''}`;
+}
+
+// About page (#about): what the app is for, with region-wide numbers and live examples from current data.
+function aboutView() {
+  const all = S().stock.map((r) => ({ ...r, ...Logic.metrics(S(), r) }));
+  const suggestions = Logic.suggestTransfers(S());
+  const cover = (schoolId) => total(suggestions.filter((x) => x.toId === schoolId), 'qty');
+  const worst = S().schools.map((s) => {
+    const rows = all.filter((r) => r.schoolId === s.id);
+    return { ...s, short: total(rows, 'short'), incoming: total(rows, 'incoming'), cover: cover(s.id) };
+  }).filter((s) => s.short).sort((a, b) => b.short - a.short).slice(0, 5);
+  const best = [...suggestions].sort((a, b) => b.qty - a.qty)[0];
+  const waiting = all.find((r) => r.short && r.incoming);
+  const supplier = S().suppliers[0];
+  const problem = (heading, text) => `<div><h3>${heading}</h3><p>${text}</p></div>`;
+  return `
+    <div class="page-head"><div><p class="eyebrow">Giới thiệu</p><h1>Ứng dụng điều phối sách giáo khoa</h1></div>
+      <a class="btn btn-sm" href="#">Chọn vai trò</a></div>
+    <p class="muted">Ứng dụng giúp luân chuyển các bản sách giáo khoa in hợp pháp đến đúng nơi đang thiếu. Chi tiết về giải pháp có trong <a href="index.html#ung-dung">Chương 4 của báo cáo</a>.</p>
+
+    <section class="home-section">
+      <h2 class="h3">Ứng dụng giải quyết ba vấn đề</h2>
+      <div class="rows">
+        ${problem('Không ai thấy trường nào thiếu đầu sách nào', 'Mỗi trường nhập ba con số cho mỗi đầu sách: cần, đang có, để trong tủ mượn. Ứng dụng tính số thiếu, số đang về và số dư của từng trường.')}
+        ${problem('Sách dư ở trường này, trường bên cạnh lại thiếu', 'Ứng dụng tự ghép trường dư với trường thiếu cùng đầu sách, ưu tiên cùng khu vực. Hai trường đồng ý với nhau, không cần in thêm cuốn nào.')}
+        ${problem('Phụ huynh không biết khi nào có sách', 'Phụ huynh xem được đầu sách nào đã đủ, đầu sách nào đang về và ngày dự kiến. Trong lúc chờ, phụ huynh đăng ký mượn luân phiên hoặc mở sách điện tử chính thức.')}
+      </div>
+    </section>
+
+    <section class="home-section">
+      <h2 class="h3">Tình hình toàn vùng (dữ liệu mẫu)</h2>
+      <div class="stats">
+        <div class="stat"><b>${S().schools.length}</b><span>Trường tham gia</span></div>
+        <div class="stat"><b>${total(all, 'short')}</b><span>Cuốn còn thiếu</span></div>
+        <div class="stat"><b>${total(suggestions, 'qty')}</b><span>Bù được bằng sách dư</span></div>
+        <div class="stat"><b>${total(all, 'incoming')}</b><span>Đang trên đường về</span></div>
+      </div>
+      ${table(['Trường thiếu nhiều nhất', 'Khu vực', '#Thiếu', '#Đang về', '#Bù được từ trường dư', ''], worst.map((s) => `<tr>
+        <td>${esc(s.name)}</td><td>${esc(s.area)}</td><td class="num"><span class="badge badge-bad">${s.short}</span></td>
+        <td class="num">${s.incoming}</td><td class="num">${s.cover}</td>
+        <td><a class="btn btn-sm" href="#school/${s.id}">Xem trường</a></td></tr>`), 'Không còn trường nào thiếu sách.')}
+    </section>
+
+    <section class="home-section">
+      <h2 class="h3">Thử ba tình huống</h2>
+      <ol class="steps">
+        ${best ? `<li><strong>Trường thiếu tìm trường dư.</strong> ${esc(schoolName(best.toId))} thiếu ${esc(title(best.titleId))}, trong khi ${esc(schoolName(best.fromId))} đang dư ${best.qty} cuốn.
+          <a href="#school/${best.toId}/transfer">Mở tab điều phối của trường</a> rồi bấm “Gửi đề nghị”.</li>` : ''}
+        ${waiting ? `<li><strong>Phụ huynh xem khi nào sách về.</strong> ${esc(schoolName(waiting.schoolId))} còn thiếu ${esc(title(waiting.titleId))} và lô giao đang trên đường.
+          <a href="#parent/${waiting.schoolId}">Xem với vai trò phụ huynh</a>.</li>` : ''}
+        <li><strong>Đơn vị cung ứng biết giao ở đâu.</strong> <a href="#supplier/${supplier.id}/demand">Mở danh sách nhu cầu</a>, đã trừ phần bù được bằng sách dư, rồi lên lịch giao.</li>
+      </ol>
+    </section>`;
 }
 
 function schoolView(id, tab = 'stock') {
@@ -134,7 +188,7 @@ function schoolView(id, tab = 'stock') {
       <p class="muted small">Cần: số học sinh cần sách. Đang có: số sách trường đang giữ, gồm cả sách trong tủ luân phiên. Tủ luân phiên: số cuốn để cho học sinh mượn theo lượt.</p>
       ${table(['Đầu sách', '#Cần', '#Đang có', '#Tủ luân phiên', '#Thiếu', '#Đang về', '#Dư', ''], rows.map((r) => {
         const x = m.get(r.id);
-        const num = (name, label) => `<td class="num"><input type="number" min="0" name="${name}" value="${r[name]}" aria-label="${label} — ${esc(title(r.titleId))}"></td>`;
+        const num = (name, label) => `<td class="num"><input type="number" min="0" name="${name}" value="${r[name]}" aria-label="${label}: ${esc(title(r.titleId))}"></td>`;
         return `<tr data-row="${r.id}"><td>${esc(title(r.titleId))}</td>${num('need', 'Cần')}${num('have', 'Đang có')}${num('shelf', 'Tủ luân phiên')}
           <td class="num">${x.short ? `<span class="badge badge-bad">${x.short}</span>` : '0'}</td>
           <td class="num">${x.incoming}</td><td class="num">${x.surplus}</td>
@@ -192,10 +246,10 @@ function schoolView(id, tab = 'stock') {
     <div class="page-head"><div><p class="eyebrow">Nhà trường · ${esc(school.area)}</p><h1>${esc(school.name)}</h1></div>
       <a class="btn btn-sm" href="#">Đổi vai trò</a></div>
     <div class="stats">
-      <div class="card stat"><b>${total(rows, 'need')}</b><span>Nhu cầu</span></div>
-      <div class="card stat"><b>${total(rows, 'have')}</b><span>Đang có</span></div>
-      <div class="card stat"><b>${total(ms, 'short')}</b><span>Còn thiếu</span></div>
-      <div class="card stat"><b>${total(ms, 'incoming')}</b><span>Đang về</span></div>
+      <div class="stat"><b>${total(rows, 'need')}</b><span>Nhu cầu</span></div>
+      <div class="stat"><b>${total(rows, 'have')}</b><span>Đang có</span></div>
+      <div class="stat"><b>${total(ms, 'short')}</b><span>Còn thiếu</span></div>
+      <div class="stat"><b>${total(ms, 'incoming')}</b><span>Đang về</span></div>
     </div>
     ${tabs(base, tab, [['stock', 'Sách & nhu cầu'], ['ship', 'Lô giao đến'], ['transfer', `Điều phối liên trường${pendingIn ? ` (${pendingIn})` : ''}`], ['loan', `Mượn luân phiên${loanReqs ? ` (${loanReqs})` : ''}`]])}
     <div class="panel">${panel}</div>`;
@@ -221,8 +275,9 @@ function parentView(id) {
   return `
     <div class="page-head"><div><p class="eyebrow">Phụ huynh / Học sinh</p><h1>Sách của ${esc(school.name)}</h1></div>
       <a class="btn btn-sm" href="#">Đổi vai trò</a></div>
+    <div class="panel">
     <div class="grid">${cards}</div>
-    <section class="card" style="margin-top:20px">
+    <section class="card">
       <h2 class="h3">Đăng ký mượn sách luân phiên</h2>
       <form data-form="loan" data-school="${id}" class="form-grid">
         <div class="field"><label for="loan-title">Đầu sách</label><select id="loan-title" name="titleId">${options}</select></div>
@@ -234,7 +289,8 @@ function parentView(id) {
       ${mine.length ? table(['Học sinh', 'Đầu sách', 'Trạng thái'], mine.map((l) => `<tr><td>${esc(l.student)} (${esc(l.className)})</td><td>${esc(title(l.titleId))}</td><td>${badge(LOAN, l.status)}</td></tr>`), '') : ''}
     </section>
     <div class="callout"><strong>Trong lúc chờ sách:</strong> hỏi giáo viên chủ nhiệm về tủ sách dùng chung tại lớp, nhóm học đôi bạn và phiếu học tập của giáo viên.
-      Đừng photocopy sách: việc này có thể vi phạm quyền tác giả.</div>`;
+      Đừng photocopy sách: việc này có thể vi phạm quyền tác giả.</div>
+    </div>`;
 }
 
 function supplierView(id, tab = 'demand') {
@@ -274,10 +330,10 @@ function supplierView(id, tab = 'demand') {
     <div class="page-head"><div><p class="eyebrow">Nhà xuất bản / Phân phối</p><h1>${esc(supplier.name)}</h1></div>
       <a class="btn btn-sm" href="#">Đổi vai trò</a></div>
     <div class="stats">
-      <div class="card stat"><b>${total(gaps, 'gap')}</b><span>Cuốn còn thiếu (toàn vùng)</span></div>
-      <div class="card stat"><b>${new Set(gaps.map((r) => r.schoolId)).size}</b><span>Trường còn thiếu</span></div>
-      <div class="card stat"><b>${mine.filter((p) => p.status !== 'delivered').length}</b><span>Lô đang xử lý</span></div>
-      <div class="card stat"><b>${total(mine.filter((p) => p.status === 'delivered'), 'qty')}</b><span>Cuốn đã giao</span></div>
+      <div class="stat"><b>${total(gaps, 'gap')}</b><span>Cuốn còn thiếu (toàn vùng)</span></div>
+      <div class="stat"><b>${new Set(gaps.map((r) => r.schoolId)).size}</b><span>Trường còn thiếu</span></div>
+      <div class="stat"><b>${mine.filter((p) => p.status !== 'delivered').length}</b><span>Lô đang xử lý</span></div>
+      <div class="stat"><b>${total(mine.filter((p) => p.status === 'delivered'), 'qty')}</b><span>Cuốn đã giao</span></div>
     </div>
     ${tabs(base, tab, [['demand', 'Nhu cầu cần giao'], ['ship', 'Lô giao của đơn vị']])}
     <div class="panel">${panel}</div>`;
@@ -288,9 +344,17 @@ const notFound = () => '<h1>Không tìm thấy</h1><p><a href="#">Quay lại ch�
 function render() {
   const [role, id, tab] = location.hash.slice(1).split('/');
   const views = { school: schoolView, parent: parentView, supplier: supplierView };
-  $main.innerHTML = views[role] && id ? views[role](id, tab) : homeView();
+  $main.innerHTML = role === 'about' ? aboutView() : views[role] && id ? views[role](id, tab) : homeView();
   const viewKey = `${role}/${id}`;
-  if (viewKey !== lastView) { lastView = viewKey; $main.focus(); window.scrollTo(0, 0); }
+  $main.classList.remove('enter');
+  if (viewKey !== lastView) {
+    lastView = viewKey;
+    $main.focus();
+    window.scrollTo(0, 0);
+    // Entrance only when the view changes (rare). Tab switches and saves re-render instantly.
+    void $main.offsetWidth; // restart the CSS animation
+    $main.classList.add('enter');
+  }
 }
 
 // ---------- actions ----------

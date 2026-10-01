@@ -44,11 +44,12 @@ Mọi tính năng/nội dung thêm vào phải phục vụ ít nhất một tiê
 
 ## Cấu trúc
 
-- `index.html`: báo cáo giải pháp, một trang cuộn.
-- `app.html` + `app.js`: web app cho 3 vai trò (nhà trường, phụ huynh/học sinh, NXB/phân phối). Điều hướng bằng hash: `#school/<id>/<tab>`, `#parent/<id>`, `#supplier/<id>/<tab>`.
+- `index.html`: báo cáo giải pháp, một trang cuộn, chia chương theo mẫu báo cáo (danh mục, tóm tắt, chương 1-6, tài liệu tham khảo kiểu IEEE).
+- `app.html` + `app.js`: web app cho 3 vai trò (nhà trường, phụ huynh/học sinh, NXB/phân phối). Điều hướng bằng hash: `#school/<id>/<tab>`, `#parent/<id>`, `#supplier/<id>/<tab>`, `#about` (trang giới thiệu).
 - `logic.js`: hàm thuần tính thiếu/dư/đang về và gợi ý điều phối sách dư. Dùng chung cho browser và test.
 - `styles.css`: style dùng chung, design token trong `:root` (có dark mode).
 - `seed.json`: dữ liệu mẫu (tên trường, đơn vị là giả định).
+- `classroom.jpg`: ảnh minh họa trong báo cáo, từ Wikimedia Commons (CC BY-SA 4.0), ghi công ngay dưới ảnh.
 - `server.py`: phục vụ file tĩnh + API (`GET /api/state`, `POST /api/<coll>`, `PATCH /api/<coll>/<id>`). Chưa có auth.
 
 ## Phân quyền (chưa làm, dự kiến)
@@ -75,7 +76,7 @@ python test_server.py       # self-check API
 node logic.test.js          # self-check logic điều phối
 ```
 
-Reset dữ liệu server: xóa `data.db`. Để máy khác truy cập server: `CAUSACH_HOST=0.0.0.0` (chưa có auth, chỉ dùng trong mạng tin cậy).
+Reset dữ liệu server: xóa `data.db`. Để máy khác truy cập server: `BOOKBRIDGE_HOST=0.0.0.0` (chưa có auth, chỉ dùng trong mạng tin cậy).
 
 ## Quy tắc làm việc
 
