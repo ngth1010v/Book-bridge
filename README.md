@@ -2,9 +2,9 @@
 
 Giải pháp chuyển tiếp giúp học sinh không bị gián đoạn việc học khi sách giáo khoa chưa về đủ: tổ chức lại cách dùng sách tại lớp, và một ứng dụng web điều phối các bản sách in hợp pháp đến đúng nơi đang thiếu. Không photocopy, phụ huynh không tốn thêm chi phí.
 
-- **Xem trực tuyến:** https://ngth1010v.github.io/Supplying-textbook-solution/
-- **Báo cáo giải pháp:** [`index.html`](https://ngth1010v.github.io/Supplying-textbook-solution/index.html)
-- **Ứng dụng demo:** [`app.html`](https://ngth1010v.github.io/Supplying-textbook-solution/app.html)
+- **Xem trực tuyến:** https://ngth1010v.github.io/Book-bridge/
+- **Báo cáo giải pháp:** [`index.html`](https://ngth1010v.github.io/Book-bridge/index.html)
+- **Ứng dụng demo:** [`app.html`](https://ngth1010v.github.io/Book-bridge/app.html)
 
 Dữ liệu trong ứng dụng là dữ liệu mẫu: tên trường và đơn vị là giả định.
 
