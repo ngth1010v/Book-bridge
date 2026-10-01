@@ -457,7 +457,7 @@ window.addEventListener('hashchange', render);
   document.querySelector('nav').setAttribute('aria-label', T`Điều hướng chính`);
   document.getElementById('report-link').href = REPORT;
   const link = document.getElementById('lang');
-  link.textContent = LANG === 'en' ? 'VI' : 'EN';
+  document.getElementById('lang-label').textContent = LANG === 'en' ? 'VI' : 'EN';
   link.lang = LANG === 'en' ? 'vi' : 'en';
   link.setAttribute('aria-label', LANG === 'en' ? 'Chuyển sang tiếng Việt' : 'Switch to English');
 })();

@@ -104,7 +104,14 @@ code { font-size: 0.9em; background: var(--surface-2); padding: 1px 6px; border-
 .brand:hover { color: var(--text); }
 .brand .icon { color: var(--accent); width: 24px; height: 24px; }
 .nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; margin-left: auto; }
-.nav a { padding: 8px 12px; border-radius: 999px; text-decoration: none; color: var(--muted); font-weight: 500; font-size: 0.9rem; white-space: nowrap; transition: background-color 0.15s, color 0.15s; }
+.nav a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; text-decoration: none; color: var(--muted); font-weight: 500; font-size: 0.9rem; white-space: nowrap; transition: background-color 0.15s, color 0.15s; }
+.nav .icon { width: 16px; height: 16px; }
+/* Phones: keep the four links on one row. The GitHub link shows its icon only (it has an aria-label). */
+@media (max-width: 520px) {
+  .nav { gap: 0; }
+  .nav a { padding: 8px 4px; gap: 4px; font-size: 0.8rem; }
+  .nav .wide-only { display: none; }
+}
 .nav a:hover { color: var(--text); background: var(--surface-2); }
 .nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 .site-footer { border-top: 1px solid var(--border); padding: 24px 0 48px; margin-top: 64px; }
